@@ -1521,8 +1521,20 @@
             loadStats(); updateStats(); renderTopicFilter();
         }
 
-        function showMainApp() { $('uploadSection').classList.add('hidden'); $('mainApp').classList.remove('hidden'); showMode('quiz'); }
-        function showUpload() { $('mainApp').classList.add('hidden'); $('uploadSection').classList.remove('hidden'); }
+        function showMainApp() { $('uploadSection').classList.add('hidden'); $('codeSection').classList.add('hidden'); $('mainApp').classList.remove('hidden'); showMode('quiz'); }
+        function showUpload() {
+            $('mainApp').classList.add('hidden');
+            $('codeApp').classList.add('hidden');
+            $('uploadSection').classList.remove('hidden');
+            $('codeSection').classList.remove('hidden');
+            // Reset button states
+            $('preloadedBtn').disabled = false;
+            $('preloadedBtn').innerHTML = '<h3>📚 BSTS302P CAT 1 MCQs</h3><p>120 questions • 12 topics • Data Structures</p>';
+            $('codeBtn').disabled = false;
+            $('codeBtn').classList.remove('hidden');
+            $('codeBtn').innerHTML = '<h3>🧑‍💻 BSTS302P CAT 1 Codes</h3><p>12 programs • Data Structures • Java</p>';
+            $('codeList').classList.add('hidden');
+        }
 
         // Navigation
         document.querySelectorAll('.nav-tab').forEach(tab => tab.addEventListener('click', () => showMode(tab.dataset.mode)));
@@ -1938,7 +1950,7 @@
         // Check practice code against original
         function checkPractice() {
             const original = removeComments(codes[currentCodeIndex].code);
-            const userCode = $('practiceEditor').value;
+            const userCode = removeComments($('practiceEditor').value);
 
             const origLines = original.split('\n').map(l => l.trim()).filter(l => l);
             const userLines = userCode.split('\n').map(l => l.trim()).filter(l => l);
