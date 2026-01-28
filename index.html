@@ -1036,7 +1036,8 @@
             display: flex;
             background: #1e1e1e;
             max-height: 400px;
-            overflow: auto;
+            overflow: hidden;
+            position: relative;
         }
 
         .line-numbers {
@@ -1118,7 +1119,9 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <div class="logo">✨ <span>Aura Learn</span></div>
+            <div class="logo">✨ <span>Aura Learn</span> <span
+                    style="font-size:0.5rem;margin-left:8px;opacity:0.6;background:none;-webkit-text-fill-color:var(--text-secondary);letter-spacing:1px;margin-top:8px">BY
+                    RITVIC</span></div>
             <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
         </div>
 
