@@ -1028,6 +1028,68 @@
             white-space: pre-wrap;
         }
 
+        /* Code Editor with Line Numbers */
+        .editor-container {
+            display: flex;
+            background: #1e1e1e;
+            max-height: 400px;
+            overflow: auto;
+        }
+
+        .line-numbers {
+            padding: 16px 12px;
+            background: #252526;
+            color: #858585;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            text-align: right;
+            user-select: none;
+            border-right: 1px solid #3c3c3c;
+            min-width: 50px;
+        }
+
+        .code-editor {
+            flex: 1;
+            padding: 16px;
+            background: transparent;
+            color: #d4d4d4;
+            border: none;
+            outline: none;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            resize: none;
+            min-height: 300px;
+            white-space: pre;
+            overflow-wrap: normal;
+        }
+
+        .code-editor::placeholder {
+            color: #6a6a6a;
+        }
+
+        /* Diff Highlighting */
+        .diff-line {
+            padding: 2px 8px;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+
+        .diff-added {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .diff-removed {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .diff-same {
+            color: #888;
+        }
+
         @media (max-width: 640px) {
             .code-grid {
                 grid-template-columns: 1fr;
@@ -1040,6 +1102,10 @@
 
             .modal-body {
                 padding: 16px;
+            }
+
+            .editor-container {
+                max-height: 250px;
             }
         }
     </style>
@@ -1096,52 +1162,125 @@
             </div>
         </div>
 
-        <!-- Code Viewer Modal -->
-        <div id="codeModal" class="modal-overlay hidden" onclick="if(event.target===this)closeCodeModal()">
-            <div class="modal">
-                <div class="modal-header">
-                    <h2 id="codeTitle">Code Title</h2>
-                    <button class="modal-close" onclick="closeCodeModal()">✕</button>
+        <!-- Code Viewer Page (Full Screen like MCQs) -->
+        <div id="codeApp" class="hidden">
+            <!-- Code Stats -->
+            <div class="card stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCodes">0</div>
+                    <div class="stat-label">Programs</div>
                 </div>
-                <div class="modal-body">
-                    <p class="modal-desc" id="codeDesc">Description</p>
+                <div class="stat-card">
+                    <div class="stat-value">Java</div>
+                    <div class="stat-label">Language</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">DSA</div>
+                    <div class="stat-label">Topic</div>
+                </div>
+            </div>
 
-                    <div class="code-controls">
-                        <button class="learn-toggle" id="learnToggle" onclick="toggleLearnMode()">📖 Learn Mode</button>
-                        <select class="lang-select" id="langSelect">
-                            <option value="java" selected>Java</option>
-                            <option value="python">Python</option>
-                            <option value="cpp">C++</option>
-                        </select>
-                        <button class="btn btn-primary" onclick="runCode()">▶ Run Code</button>
+            <!-- Code Navigation -->
+            <div class="nav-tabs">
+                <button class="nav-tab" onclick="showCodeUpload()">🏠 Home</button>
+                <button class="nav-tab active" data-codemode="code" onclick="setCodeMode('code')">💻 Code</button>
+                <button class="nav-tab" data-codemode="learn" onclick="setCodeMode('learn')">📖 Learn</button>
+                <button class="nav-tab" data-codemode="practice" onclick="setCodeMode('practice')">✍️ Practice</button>
+            </div>
+
+            <!-- Code List -->
+            <div class="topic-section">
+                <div class="topic-label">Select Program</div>
+                <div class="topic-filter" id="codeChips"></div>
+            </div>
+
+            <!-- Code Mode -->
+            <div id="codeModeView" class="card">
+                <div class="question-header">
+                    <span class="question-num" id="codeNum">Program 1/12</span>
+                    <span class="question-topic" id="codeTopic">Priority Queue</span>
+                </div>
+                <p class="modal-desc" id="codeDescFull" style="margin-bottom:16px"></p>
+
+                <div class="code-controls">
+                    <select class="lang-select" id="langSelect">
+                        <option value="java" selected>Java</option>
+                        <option value="python">Python</option>
+                        <option value="cpp">C++</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="runCode()">▶ Run Code</button>
+                    <button class="btn btn-ghost" onclick="resetCode()">↺ Reset</button>
+                </div>
+
+                <!-- Editable Code Editor with Line Numbers -->
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                        <span class="terminal-title" id="terminalTitle2">Main.java</span>
                     </div>
-
-                    <div id="codeView">
-                        <div class="terminal">
-                            <div class="terminal-header">
-                                <div class="terminal-dot red"></div>
-                                <div class="terminal-dot yellow"></div>
-                                <div class="terminal-dot green"></div>
-                                <span class="terminal-title" id="terminalTitle">Main.java</span>
-                            </div>
-                            <pre class="terminal-code" id="terminalCode">// Code here</pre>
-                        </div>
+                    <div class="editor-container">
+                        <div class="line-numbers" id="lineNumbers"></div>
+                        <textarea class="code-editor" id="codeEditor" spellcheck="false"></textarea>
                     </div>
+                </div>
 
-                    <div id="learnView" class="learn-container hidden"></div>
+                <div style="margin-top:16px">
+                    <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:6px">📥 Input
+                        (stdin)</label>
+                    <textarea class="code-input" id="codeInput2" placeholder="Enter input here..."></textarea>
+                </div>
 
-                    <div style="margin-top:16px">
-                        <label style="font-size:0.85rem;font-weight:600;display:block;margin-bottom:6px">📥 Input
-                            (stdin)</label>
-                        <textarea class="code-input" id="codeInput" placeholder="Enter input here..."></textarea>
+                <div id="outputSection2">
+                    <label style="font-size:0.85rem;font-weight:600;display:block;margin-top:16px;margin-bottom:6px">📤
+                        Output</label>
+                    <div class="code-output" id="codeOutput2">Click "Run Code" to execute</div>
+                </div>
+            </div>
+
+            <!-- Learn Mode -->
+            <div id="learnModeView" class="card hidden">
+                <div class="question-header">
+                    <span class="question-num" id="learnNum">Learning: Program 1</span>
+                    <span class="question-topic" id="learnTopic">Topic</span>
+                </div>
+                <p class="modal-desc" id="learnDesc" style="margin-bottom:20px"></p>
+                <div id="learnBlocks"></div>
+            </div>
+
+            <!-- Practice Mode -->
+            <div id="practiceModeView" class="card hidden">
+                <div class="question-header">
+                    <span class="question-num" id="practiceNum">Practice: Program 1</span>
+                    <span class="question-topic" id="practiceTopic">Topic</span>
+                </div>
+                <p class="modal-desc" style="margin-bottom:16px">Type the code from memory. Your code will be compared
+                    to the original.</p>
+
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                        <span class="terminal-title">Your Code</span>
                     </div>
-
-                    <div id="outputSection" class="hidden">
-                        <label
-                            style="font-size:0.85rem;font-weight:600;display:block;margin-top:16px;margin-bottom:6px">📤
-                            Output</label>
-                        <div class="code-output" id="codeOutput"></div>
+                    <div class="editor-container">
+                        <div class="line-numbers" id="practiceLineNumbers"></div>
+                        <textarea class="code-editor" id="practiceEditor" spellcheck="false"
+                            placeholder="Start typing the code..."></textarea>
                     </div>
+                </div>
+
+                <div class="action-bar">
+                    <button class="btn btn-ghost" onclick="clearPractice()">🗑️ Clear</button>
+                    <button class="btn btn-primary" onclick="checkPractice()">✓ Check Code</button>
+                </div>
+
+                <div id="practiceResult" class="hidden" style="margin-top:16px">
+                    <h4 style="margin-bottom:10px;font-size:0.95rem">📊 Comparison Result</h4>
+                    <div id="practiceScore" style="font-size:1.5rem;font-weight:700;margin-bottom:12px"></div>
+                    <div id="practiceDiff" class="code-output" style="max-height:300px;overflow-y:auto"></div>
                 </div>
             </div>
         </div>
@@ -1560,22 +1699,22 @@
 
         let codes = [];
         let currentCodeIndex = 0;
-        let isLearnMode = false;
+        let currentCodeMode = 'code';
 
-        // Code descriptions mapping
+        // Code descriptions with input info
         const codeDescriptions = {
-            'Priority Queue using DLL': 'Implements a priority queue using doubly linked list. Elements are inserted in order based on their priority value, with lower priority values at the front.',
-            'Sort without extra Space': 'Sorts a queue in-place by repeatedly finding and removing the minimum element. Demonstrates sorting without using additional data structures.',
-            'Max Sliding Window': 'Finds the maximum element in each sliding window of size K using a deque. Maintains elements in decreasing order for O(n) efficiency.',
-            'Stack permutations': 'Checks if one sequence can be obtained from another using only push and pop operations on a stack. Uses simulation approach.',
-            'The Celebrity problem': 'Finds the celebrity in a party (known by everyone, knows no one) using stack-based elimination. Runs in O(n) time.',
-            'Iterative Tower of Hanoi': 'Solves the classic Tower of Hanoi puzzle iteratively using three stacks instead of recursion. Uses bit manipulation for move pattern.',
-            'Minimum Stack': 'Implements a stack that supports push, pop, top, and retrieving the minimum element in O(1) time using an auxiliary stack.',
-            'Stock Span problem': 'Calculates the span of stock prices (consecutive days with lower or equal price) using a stack-based approach.',
-            'Loop Detection': 'Detects a cycle in a linked list using Floyd\'s Tortoise and Hare algorithm with two pointers moving at different speeds.',
-            'Segregate even & odd nodes': 'Rearranges a linked list so even-indexed nodes come before odd-indexed nodes while maintaining relative order.',
-            'Sort the bitonic DLL': 'Sorts a bitonic (first increasing then decreasing) doubly linked list using selection sort approach.',
-            'Merge sort for DLL': 'Implements merge sort on a doubly linked list. Uses divide and conquer with O(n log n) time complexity.'
+            'Priority Queue using DLL': 'Priority queue using doubly linked list. Elements ordered by priority value.\n\n📥 Input: n (count), then pairs of (data, priority)',
+            'Sort without extra Space': 'Sorts a queue in-place by selection sort approach.\n\n📥 Input: n (count), then n integers',
+            'Max Sliding Window': 'Maximum element in each sliding window of size K using deque.\n\n📥 Input: n, k, then n integers',
+            'Stack permutations': 'Checks if output sequence possible from input using stack.\n\n📥 Input: n, then input sequence, then output sequence',
+            'The Celebrity problem': 'Find celebrity (known by all, knows none) using stack elimination.\n\n📥 Input: rows, cols, then 2D matrix (0/1)',
+            'Iterative Tower of Hanoi': 'Tower of Hanoi solved iteratively using 3 stacks.\n\n📥 Input: n (number of disks)',
+            'Minimum Stack': 'Stack with O(1) getMin using auxiliary stack.\n\n📥 Input: n (operations), then op codes (1=push x, 2=pop, 3=top, 4=getMin)',
+            'Stock Span problem': 'Calculate stock span using stack.\n\n📥 Input: n, then n stock prices',
+            'Loop Detection': 'Detect cycle using Floyd\'s algorithm.\n\n📥 Input: n (nodes), then n values, then loop position (0=no loop)',
+            'Segregate even & odd nodes': 'Rearrange LL with odd-indexed before even-indexed nodes.\n\n📥 Input: n, then n integers',
+            'Sort the bitonic DLL': 'Sort bitonic DLL using selection sort.\n\n📥 Input: n, then n integers (first inc, then dec)',
+            'Merge sort for DLL': 'Merge sort on doubly linked list.\n\n📥 Input: n, then n integers'
         };
 
         // Load codes from file
@@ -1589,8 +1728,7 @@
                 if (!response.ok) throw new Error('Failed to load');
                 const text = await response.text();
                 parseCodes(text);
-                showCodeList();
-                btn.classList.add('hidden');
+                showCodeApp();
             } catch (error) {
                 btn.innerHTML = '<h3>❌ Error Loading</h3><p>Could not fetch codes. Try again later.</p>';
                 btn.disabled = false;
@@ -1603,14 +1741,12 @@
         // Parse codes from text
         function parseCodes(text) {
             codes = [];
-            // Split by separator lines (multiple = or - characters)
             const parts = text.split(/\n[-=]{20,}\n[-=]{20,}\n|\n[-=]{50,}\n/);
 
             parts.forEach(part => {
                 const lines = part.trim().split('\n');
                 if (lines.length < 3) return;
 
-                // First non-empty line is the title
                 let title = '';
                 let codeStart = 0;
 
@@ -1625,7 +1761,6 @@
 
                 if (!title) return;
 
-                // Find where actual code starts (import or class)
                 for (let i = codeStart; i < lines.length; i++) {
                     const line = lines[i].trim();
                     if (line.startsWith('import') || line.startsWith('class') || line.startsWith('public')) {
@@ -1636,105 +1771,214 @@
 
                 const code = lines.slice(codeStart).join('\n').trim();
                 if (code.length > 10) {
-                    codes.push({ title, code, description: codeDescriptions[title] || 'A data structures algorithm implementation in Java.' });
+                    codes.push({
+                        title,
+                        code,
+                        description: codeDescriptions[title] || 'A data structures algorithm in Java.\n\n📥 Input: As required by the program'
+                    });
                 }
             });
         }
 
-        // Show code list
-        function showCodeList() {
-            $('codeList').classList.remove('hidden');
-            $('codeGrid').innerHTML = codes.map((c, i) => `
-                <div class="code-card" onclick="openCode(${i})">
-                    <h4>${c.title}</h4>
-                    <p>${c.description.substring(0, 60)}...</p>
-                </div>
-            `).join('');
+        // Show code app (full screen)
+        function showCodeApp() {
+            $('uploadSection').classList.add('hidden');
+            $('codeSection').classList.add('hidden');
+            $('codeApp').classList.remove('hidden');
+            $('totalCodes').textContent = codes.length;
+
+            // Render code chips
+            $('codeChips').innerHTML = codes.map((c, i) =>
+                `<div class="topic-chip ${i === 0 ? 'active' : ''}" data-idx="${i}" onclick="selectCode(${i})">${c.title.substring(0, 20)}${c.title.length > 20 ? '...' : ''}</div>`
+            ).join('');
+
+            currentCodeIndex = 0;
+            setCodeMode('code');
         }
 
-        // Open code modal
-        function openCode(index) {
-            currentCodeIndex = index;
-            isLearnMode = false;
-            const code = codes[index];
-
-            $('codeTitle').textContent = code.title;
-            $('codeDesc').textContent = code.description;
-            $('terminalTitle').textContent = 'Main.java';
-            $('terminalCode').textContent = code.code;
-            $('codeInput').value = '';
-            $('outputSection').classList.add('hidden');
-            $('learnToggle').classList.remove('active');
-            $('codeView').classList.remove('hidden');
-            $('learnView').classList.add('hidden');
-
-            $('codeModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+        // Go back to upload page
+        function showCodeUpload() {
+            $('codeApp').classList.add('hidden');
+            $('uploadSection').classList.remove('hidden');
+            $('codeSection').classList.remove('hidden');
         }
 
-        // Close code modal
-        function closeCodeModal() {
-            $('codeModal').classList.add('hidden');
-            document.body.style.overflow = '';
+        // Select a code
+        function selectCode(idx) {
+            currentCodeIndex = idx;
+            $('codeChips').querySelectorAll('.topic-chip').forEach((c, i) => c.classList.toggle('active', i === idx));
+            loadCodeView();
         }
 
-        // Toggle learn mode
-        function toggleLearnMode() {
-            isLearnMode = !isLearnMode;
-            $('learnToggle').classList.toggle('active', isLearnMode);
-            $('codeView').classList.toggle('hidden', isLearnMode);
-            $('learnView').classList.toggle('hidden', !isLearnMode);
+        // Set code mode (code/learn/practice)
+        function setCodeMode(mode) {
+            currentCodeMode = mode;
+            document.querySelectorAll('[data-codemode]').forEach(t => t.classList.toggle('active', t.dataset.codemode === mode));
 
-            if (isLearnMode) {
-                renderLearnMode();
+            $('codeModeView').classList.toggle('hidden', mode !== 'code');
+            $('learnModeView').classList.toggle('hidden', mode !== 'learn');
+            $('practiceModeView').classList.toggle('hidden', mode !== 'practice');
+
+            loadCodeView();
+        }
+
+        // Load code view based on mode
+        function loadCodeView() {
+            if (!codes.length) return;
+            const c = codes[currentCodeIndex];
+
+            if (currentCodeMode === 'code') {
+                $('codeNum').textContent = `Program ${currentCodeIndex + 1}/${codes.length}`;
+                $('codeTopic').textContent = c.title;
+                $('codeDescFull').textContent = c.description;
+                $('codeEditor').value = c.code;
+                updateLineNumbers('codeEditor', 'lineNumbers');
+                $('codeOutput2').textContent = 'Click "Run Code" to execute';
+            } else if (currentCodeMode === 'learn') {
+                $('learnNum').textContent = `Learning: ${c.title}`;
+                $('learnTopic').textContent = 'Step by Step';
+                $('learnDesc').textContent = c.description;
+                renderLearnBlocks(c.code);
+            } else if (currentCodeMode === 'practice') {
+                $('practiceNum').textContent = `Practice: ${c.title}`;
+                $('practiceTopic').textContent = c.title.substring(0, 25);
+                $('practiceEditor').value = '';
+                updateLineNumbers('practiceEditor', 'practiceLineNumbers');
+                $('practiceResult').classList.add('hidden');
             }
         }
 
-        // Render learn mode blocks
-        function renderLearnMode() {
-            const code = codes[currentCodeIndex].code;
+        // Update line numbers
+        function updateLineNumbers(editorId, lineNumId) {
+            const editor = $(editorId);
+            const lineCount = editor.value.split('\n').length;
+            $(lineNumId).innerHTML = Array.from({ length: Math.max(lineCount, 15) }, (_, i) => i + 1).join('<br>');
+        }
+
+        // Sync line numbers on input
+        document.addEventListener('DOMContentLoaded', () => {
+            ['codeEditor', 'practiceEditor'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', () => updateLineNumbers(id, id === 'codeEditor' ? 'lineNumbers' : 'practiceLineNumbers'));
+                    el.addEventListener('scroll', function () {
+                        const lineNumId = id === 'codeEditor' ? 'lineNumbers' : 'practiceLineNumbers';
+                        $(lineNumId).style.transform = `translateY(-${this.scrollTop}px)`;
+                    });
+                }
+            });
+        });
+
+        // Reset code to original
+        function resetCode() {
+            if (!codes.length) return;
+            $('codeEditor').value = codes[currentCodeIndex].code;
+            updateLineNumbers('codeEditor', 'lineNumbers');
+        }
+
+        // Render learn blocks - split by comments
+        function renderLearnBlocks(code) {
             const lines = code.split('\n');
-            let blocks = [];
-            let currentBlock = { comment: '', code: [] };
+            const blocks = [];
+            let currentComment = '';
+            let currentCode = [];
 
             lines.forEach(line => {
                 const trimmed = line.trim();
-                // Check for single-line comments
+
+                // Check for comment (single line or block comment start)
                 if (trimmed.startsWith('//')) {
-                    // If we have accumulated code, save the block
-                    if (currentBlock.code.length > 0) {
-                        blocks.push({ ...currentBlock });
-                        currentBlock = { comment: '', code: [] };
+                    // Save previous block if has code
+                    if (currentCode.length > 0) {
+                        blocks.push({ comment: currentComment, code: currentCode.join('\n') });
+                        currentCode = [];
                     }
-                    // Set comment (remove // prefix)
-                    currentBlock.comment = trimmed.replace(/^\/\/\s*/, '');
+                    currentComment = trimmed.replace(/^\/\/\s*/, '');
+                } else if (trimmed.startsWith('/*') && trimmed.endsWith('*/')) {
+                    if (currentCode.length > 0) {
+                        blocks.push({ comment: currentComment, code: currentCode.join('\n') });
+                        currentCode = [];
+                    }
+                    currentComment = trimmed.replace(/^\/\*\s*|\s*\*\/$/g, '');
                 } else if (trimmed) {
-                    // Add code line
-                    currentBlock.code.push(line);
+                    currentCode.push(line);
                 }
             });
 
-            // Push last block
-            if (currentBlock.code.length > 0) {
-                blocks.push(currentBlock);
+            // Push final block
+            if (currentCode.length > 0) {
+                blocks.push({ comment: currentComment, code: currentCode.join('\n') });
             }
 
-            // Merge small blocks without comments
-            const mergedBlocks = [];
-            blocks.forEach(block => {
-                if (!block.comment && mergedBlocks.length > 0 && block.code.length < 3) {
-                    mergedBlocks[mergedBlocks.length - 1].code.push(...block.code);
-                } else {
-                    mergedBlocks.push(block);
-                }
-            });
-
-            $('learnView').innerHTML = mergedBlocks.map(block => `
+            // Render blocks
+            $('learnBlocks').innerHTML = blocks.map((b, i) => `
                 <div class="learn-block">
-                    ${block.comment ? `<div class="learn-comment">💡 ${block.comment}</div>` : ''}
-                    <pre class="learn-code">${escapeHtml(block.code.join('\n'))}</pre>
+                    ${b.comment ? `<div class="learn-comment">💡 ${escapeHtml(b.comment)}</div>` :
+                    i === 0 ? '<div class="learn-comment">📦 Imports & Class Definition</div>' : ''}
+                    <div class="terminal" style="margin-top:0">
+                        <div class="terminal-header">
+                            <div class="terminal-dot red"></div>
+                            <div class="terminal-dot yellow"></div>
+                            <div class="terminal-dot green"></div>
+                            <span class="terminal-title">Block ${i + 1}</span>
+                        </div>
+                        <pre class="terminal-code" style="max-height:200px">${escapeHtml(b.code)}</pre>
+                    </div>
                 </div>
             `).join('');
+        }
+
+        // Clear practice editor
+        function clearPractice() {
+            $('practiceEditor').value = '';
+            updateLineNumbers('practiceEditor', 'practiceLineNumbers');
+            $('practiceResult').classList.add('hidden');
+        }
+
+        // Check practice code against original
+        function checkPractice() {
+            const original = removeComments(codes[currentCodeIndex].code);
+            const userCode = $('practiceEditor').value;
+
+            const origLines = original.split('\n').map(l => l.trim()).filter(l => l);
+            const userLines = userCode.split('\n').map(l => l.trim()).filter(l => l);
+
+            // Calculate similarity
+            let matches = 0;
+            const maxLen = Math.max(origLines.length, userLines.length);
+
+            const diffHtml = [];
+            for (let i = 0; i < maxLen; i++) {
+                const orig = origLines[i] || '';
+                const user = userLines[i] || '';
+
+                if (orig === user) {
+                    matches++;
+                    diffHtml.push(`<div class="diff-line diff-same">${i + 1}. ✓ ${escapeHtml(user)}</div>`);
+                } else if (!user && orig) {
+                    diffHtml.push(`<div class="diff-line diff-removed">${i + 1}. - ${escapeHtml(orig)}</div>`);
+                } else if (user && !orig) {
+                    diffHtml.push(`<div class="diff-line diff-added">${i + 1}. + ${escapeHtml(user)}</div>`);
+                } else {
+                    diffHtml.push(`<div class="diff-line diff-removed">${i + 1}. - ${escapeHtml(orig)}</div>`);
+                    diffHtml.push(`<div class="diff-line diff-added">${i + 1}. + ${escapeHtml(user)}</div>`);
+                }
+            }
+
+            const score = maxLen > 0 ? Math.round((matches / origLines.length) * 100) : 0;
+            $('practiceScore').innerHTML = `<span style="color:${score >= 70 ? 'var(--success)' : score >= 40 ? 'var(--warning)' : 'var(--danger)'}">${score}%</span> Match`;
+            $('practiceDiff').innerHTML = diffHtml.join('');
+            $('practiceResult').classList.remove('hidden');
+        }
+
+        // Remove comments from code
+        function removeComments(code) {
+            return code
+                .replace(/\/\*[\s\S]*?\*\//g, '')
+                .replace(/\/\/.*$/gm, '')
+                .split('\n')
+                .filter(l => l.trim())
+                .join('\n');
         }
 
         // Escape HTML
@@ -1746,12 +1990,11 @@
 
         // Run code using Piston API
         async function runCode() {
-            const code = codes[currentCodeIndex].code;
-            const input = $('codeInput').value;
+            const code = $('codeEditor').value;
+            const input = $('codeInput2').value;
             const lang = $('langSelect').value;
 
-            $('outputSection').classList.remove('hidden');
-            $('codeOutput').textContent = '⏳ Running...';
+            $('codeOutput2').textContent = '⏳ Running...';
 
             const langMap = {
                 'java': { language: 'java', version: '15.0.2' },
@@ -1775,12 +2018,12 @@
 
                 if (result.run) {
                     const output = result.run.stdout || result.run.stderr || 'No output';
-                    $('codeOutput').textContent = output;
+                    $('codeOutput2').textContent = output;
                 } else {
-                    $('codeOutput').textContent = '❌ Error: ' + (result.message || 'Unknown error');
+                    $('codeOutput2').textContent = '❌ Error: ' + (result.message || 'Unknown error');
                 }
             } catch (error) {
-                $('codeOutput').textContent = '❌ Network error. Check your connection.';
+                $('codeOutput2').textContent = '❌ Network error. Check your connection.';
             }
         }
     </script>
