@@ -1813,6 +1813,11 @@
             $('codeApp').classList.add('hidden');
             $('uploadSection').classList.remove('hidden');
             $('codeSection').classList.remove('hidden');
+            // Reset code button state
+            $('codeBtn').disabled = false;
+            $('codeBtn').classList.remove('hidden');
+            $('codeBtn').innerHTML = '<h3>🧑‍💻 BSTS302P CAT 1 Codes</h3><p>12 programs • Data Structures • Java</p>';
+            $('codeList').classList.add('hidden');
         }
 
         // Select a code
