@@ -1,0 +1,865 @@
+ 1. Loop Detection in Linked List 
+
+Which algorithm is most commonly used to detect a loop in a linked list?
+A. Merge Sort
+B. Floyd’s Cycle Detection
+C. KMP
+D. Prim’s Algorithm
+Answer: B
+
+Floyd’s algorithm uses which two pointers?
+A. Start and End
+B. Top and Bottom
+C. Slow and Fast
+D. Head and Tail
+Answer: C
+
+Time complexity of Floyd's Loop Detection method?
+A. O(n²)
+B. O(log n)
+C. O(n)
+D. O(n log n)
+Answer: C
+
+Space complexity of Floyd’s algorithm?
+A. O(n)
+B. O(log n)
+C. O(1)
+D. O(n²)
+Answer: C
+
+Which condition indicates a loop while using slow/fast pointers?
+A. fast == NULL
+B. slow == NULL
+C. slow == fast
+D. fast->next == NULL
+Answer: C
+
+To find loop length, you must:
+A. Reverse the list
+B. Count nodes until pointers meet again
+C. Delete nodes
+D. Apply binary search
+Answer: B
+
+To remove loop, you first need to find:
+A. Middle node
+B. Starting node of loop
+C. Tail
+D. Node before tail
+Answer: B
+
+Which is NOT a method to detect a loop?
+A. Hashing
+B. Slow-Fast pointer
+C. Recursion depth check
+D. Marking nodes
+Answer: C
+
+When fast becomes NULL, it means:
+A. Loop exists
+B. Loop does not exist
+C. List destroyed
+D. Memory leak
+Answer: B
+
+Hashset-based detection has complexity:
+A. O(1) time, O(1) space
+B. O(n) time, O(n) space
+C. O(n²) time, O(1) space
+D. O(n log n) time, O(1) space
+Answer: B
+
+2. Sort the Bitonic Doubly Linked List 
+
+A bitonic DLL is one that:
+A. Only increases
+B. Only decreases
+C. First increases then decreases
+D. Is circular
+Answer: C
+
+Sorting a bitonic DLL usually involves:
+A. Splitting and merging
+B. Reversing entire list
+C. Using heaps
+D. Using BFS
+Answer: A
+
+Time complexity of optimal bitonic DLL sort?
+A. O(n²)
+B. O(n log n)
+C. O(n)
+D. O(log n)
+Answer: B
+
+During sorting you first identify:
+A. Minimum
+B. Peak node
+C. Last node
+D. Middle node
+Answer: B
+
+After peak is found you generally:
+A. Delete nodes
+B. Reverse second half
+C. Reverse first half
+D. Swap adjacent nodes
+Answer: B
+
+Merging two sorted DLL halves costs:
+A. O(1)
+B. O(n)
+C. O(n²)
+D. O(log n)
+Answer: B
+
+Bitonic list sorting uses modified:
+A. Merge sort
+B. Quick sort
+C. Heap sort
+D. Counting sort
+Answer: A
+
+Which pointer allows reverse traversal?
+A. next
+B. prev
+C. tail
+D. head
+Answer: B
+
+Peak node satisfies:
+A. prev->data > data
+B. next->data < data
+C. prev->data < data and next->data < data
+D. next = NULL
+Answer: C
+
+Memory overhead during sorting:
+A. O(1)
+B. O(n)
+C. O(log n)
+D. O(n²)
+Answer: A
+
+3. Segregate Even & Odd Nodes in a Linked List 
+
+Segregating even/odd nodes usually means:
+A. Sorting the list
+B. Rearranging based on data parity
+C. Deleting odd nodes
+D. Reversing list
+Answer: B
+
+The relative order of nodes is usually:
+A. Lost
+B. Preserved
+C. Random
+D. Not defined
+Answer: B
+
+Ideal space complexity for segregation:
+A. O(n)
+B. O(n²)
+C. O(1)
+D. O(log n)
+Answer: C
+
+The algorithm typically builds two lists:
+A. Prime and Composite
+B. Even and Odd
+C. Small and Large
+D. First and Last
+Answer: B
+
+Time complexity of segregation:
+A. O(log n)
+B. O(n²)
+C. O(n)
+D. O(1)
+Answer: C
+
+Which nodes appear first in output?
+A. Odd
+B. Even
+C. Largest
+D. Smallest
+Answer: B
+
+The final list is formed by:
+A. Merging odd-first then even
+B. Merging even-first then odd
+C. Reversing even list
+D. Rotating nodes
+Answer: B
+
+Which pointer is NOT required?
+A. Even head
+B. Odd head
+C. Tail
+D. Mid
+Answer: D
+
+A node with value 0 is considered:
+A. Odd
+B. Even
+C. Neither
+D. Invalid
+Answer: B
+
+Does segregation require modifying node data?
+A. Yes
+B. No
+C. Sometimes
+D. Only if duplicates
+Answer: B
+
+4. Merge Sort for Doubly Linked List 
+Merge sort on DLL uses which strategy?
+A. Greedy
+B. Divide and Conquer
+C. Dynamic Programming
+D. Backtracking
+Answer: B
+
+Time complexity:
+A. O(n²)
+B. O(n log n)
+C. O(n)
+D. O(log n)
+Answer: B
+
+Splitting a DLL for merge sort uses:
+A. Slow/Fast pointers
+B. Hashing
+C. BFS
+D. Stack
+Answer: A
+
+Merge step complexity:
+A. O(1)
+B. O(n)
+C. O(log n)
+D. O(n²)
+Answer: B
+
+Merge sort is preferred for linked lists because:
+A. Doesn’t require random access
+B. Fastest for arrays
+C. Uses less memory
+D. Performs swaps easily
+Answer: A
+
+Space complexity of merge sort on DLL (recursive)?
+A. O(n)
+B. O(log n)
+C. O(1)
+D. O(n log n)
+Answer: B
+
+For DLL merge, adjusting which pointer is crucial?
+A. head
+B. prev
+C. tail
+D. random
+Answer: B
+
+Merge sort is:
+A. In-place for DLL
+B. Not in-place
+C. Only works for arrays
+D. Non-stable
+Answer: A
+
+Merge sort stability for DLL:
+A. Stable
+B. Unstable
+C. Depends
+D. Not sure
+Answer: A
+
+Merge sort worst case:
+A. O(1)
+B. O(n)
+C. O(n log n)
+D. O(n²)
+Answer: C
+
+5. Minimum Stack 
+
+Min stack supports retrieving:
+A. Maximum
+B. Minimum
+C. Sum
+D. Product
+Answer: B
+
+Additional structure commonly used:
+A. Queue
+B. Hash map
+C. Auxiliary stack
+D. Heap
+Answer: C
+
+Time complexity of push/pop/min for optimized min-stack:
+A. O(log n)
+B. O(n)
+C. O(1)
+D. O(n²)
+Answer: C
+
+A popular technique uses:
+A. Encoding values
+B. Binary search
+C. No extra memory
+D. Sorting
+Answer: A
+
+getMin() returns:
+A. Middle
+B. Top
+C. Minimum
+D. Second top
+Answer: C
+
+In encoding method, when pushing a smaller value, push:
+A. Real value
+B. Special encoded value
+C. Max of values
+D. NULL
+Answer: B
+
+Auxiliary stack stores:
+A. Max values
+B. Min values
+C. Middle values
+D. Previous pops only
+Answer: B
+
+Space complexity with auxiliary stack:
+A. O(1)
+B. O(n)
+C. O(log n)
+D. O(n²)
+Answer: B
+
+Encoded-value method space complexity:
+A. O(n)
+B. O(log n)
+C. O(1) extra
+D. O(n²)
+Answer: C
+
+Min stack requires:
+A. Array
+B. Stack
+C. Graph
+D. Tree
+Answer: B
+
+6. The Celebrity Problem 
+
+A celebrity at a party is a person who:
+A. Knows everyone
+B. Is known by everyone but knows no one
+C. Knows no one but is unknown
+D. Knows exactly one person
+Answer: B
+
+Typical input for celebrity problem:
+A. Graph adjacency list
+B. Matrix of acquaintance
+C. Tree
+D. Array
+Answer: B
+
+Optimal time complexity:
+A. O(n²)
+B. O(log n)
+C. O(n)
+D. O(n log n)
+Answer: C
+
+Key elimination rule:
+A. If A knows B, A cannot be celebrity
+B. If A doesn’t know B, A is celebrity
+C. B is celebrity if A knows B
+D. Random elimination
+Answer: A
+
+Stack-based solution time complexity:
+A. O(1)
+B. O(n)
+C. O(n log n)
+D. O(n²)
+Answer: B
+
+After elimination, last candidate must be:
+A. Accepted without checks
+B. Fully verified
+C. Deleted
+D. Ignored
+Answer: B
+
+Which matrix entry indicates A knows B?
+A. M[B][A] = 1
+B. M[A][B] = 1
+C. M[A][A] = 1
+D. M[B][B] = 1
+Answer: B
+
+Celebrity knows:
+A. Everyone
+B. No one
+C. Only friends
+D. Only enemies
+Answer: B
+
+If no celebrity exists, return:
+A. -1
+B. 0
+C. NULL
+D. n
+Answer: A
+
+Method minimizing comparisons:
+A. Greedy elimination
+B. BFS
+C. DFS
+D. Sorting
+Answer: A
+
+7. Iterative Tower of Hanoi 
+
+Tower of Hanoi moves count for n disks:
+A. 2ⁿ − 1
+B. n!
+C. n²
+D. n log n
+Answer: A
+
+Iterative version uses:
+A. Queue
+B. Stack
+C. Bit manipulation
+D. Array rotations
+Answer: C
+
+If number of disks is even:
+A. A→C is first move
+B. A→B is first move
+C. C→A is first
+D. No rule
+Answer: B
+
+If number of disks is odd:
+A. A→C is first move
+B. A→B is first move
+C. B→C is first
+D. Random move
+Answer: A
+
+Iterative solution cycles through moves:
+A. Smallest disk
+B. Largest disk
+C. Middle disk
+D. Random disk
+Answer: A
+
+Number of rods used:
+A. 2
+B. 3
+C. 4
+D. n
+Answer: B
+
+Disk movement rules include:
+A. Larger disk over smaller
+B. Smaller over larger
+C. Ignore sizes
+D. Move only even disks
+Answer: B
+
+Iterative solution uses modulo operations on move number to determine:
+A. Destination rod
+B. Disk size
+C. Stack ordering
+D. None
+Answer: A
+
+Tower of Hanoi is a classic example of:
+A. Dynamic programming
+B. Recursion
+C. Divide & conquer
+D. Hashing
+Answer: C
+
+Iterative solution is preferred because:
+A. Faster than recursive
+B. Avoids recursion stack
+C. Uses less memory
+D. Both B & C
+Answer: D
+
+8. Stock Span Problem 
+
+Stock span of a day is:
+A. Number of future days with higher price
+B. Number of consecutive previous days ≤ price
+C. Difference between max and min
+D. Number of peaks
+Answer: B
+
+Ideal data structure:
+A. Queue
+B. BFS Tree
+C. Stack
+D. Heap
+Answer: C
+
+Time complexity (optimized):
+A. O(n²)
+B. O(log n)
+C. O(n)
+D. O(n log n)
+Answer: C
+
+Stack stores:
+A. Prices only
+B. Indexes
+C. Sum of previous values
+D. Entire array
+Answer: B
+
+Span for first day:
+A. 0
+B. 1
+C. Depends
+D. -1
+Answer: B
+
+Span becomes large when:
+A. Prices fall continuously
+B. Prices rise continuously
+C. Prices alternate
+D. Prices random
+Answer: B
+
+Naive solution complexity:
+A. O(1)
+B. O(n)
+C. O(n²)
+D. O(log n)
+Answer: C
+
+Idea of optimized approach:
+A. Remove larger values from stack
+B. Remove smaller values from stack
+C. Reverse array
+D. Use binary search
+Answer: B
+
+Stack is used in:
+A. Next greater element
+B. Stock span
+C. Histogram problems
+D. All above
+Answer: D
+
+Stock span output is an array of size:
+A. n-1
+B. n
+C. n+1
+D. log(n)
+Answer: B
+
+9. Priority Queue Using Doubly Linked List 
+
+Priority queue stores elements with:
+A. Random priority
+B. Assigned priority
+C. No priority
+D. Sorted keys only
+Answer: B
+
+Using DLL, insertion is usually:
+A. O(1)
+B. O(n)
+C. O(log n)
+D. O(n²)
+Answer: B
+
+Highest priority is commonly defined as:
+A. Smallest value
+B. Largest value
+C. Random
+D. Middle value
+Answer: A
+
+Best position to insert value x is:
+A. Beginning
+B. End
+C. According to priority order
+D. Random
+Answer: C
+
+Extract-min operation:
+A. O(1)
+B. O(n)
+C. O(log n)
+D. O(n²)
+Answer: A
+
+DLL is used because:
+A. Supports backward traversal
+B. Uses no memory
+C. Faster than heap
+D. Unique keys
+Answer: A
+
+Removal from DLL:
+A. O(1)
+B. O(n)
+C. O(log n)
+D. O(n²)
+Answer: A
+
+Priority queue using DLL is:
+A. Better than binary heap
+B. Worse in time complexity
+C. Always optimal
+D. BFS-based
+Answer: B
+
+Tail pointer helps to access:
+A. Middle
+B. End
+C. Max/Min depending on order
+D. Random
+Answer: C
+
+DLL priority queue is useful when:
+A. Random access needed
+B. Frequent insertions in sorted order
+C. Need O(log n) operations
+D. Memory limited
+Answer: B
+
+10. Sort Without Extra Space (Linked List) 
+
+Sorting LL without extra space means:
+A. No temp arrays
+B. No recursion
+C. No loops
+D. Using dynamic memory
+Answer: A
+
+Best suited algorithm:
+A. Quick sort
+B. Selection sort
+C. Merge sort (in-place)
+D. Heap sort
+Answer: C
+
+Linked list quicksort is often:
+A. Faster
+B. Slower
+C. Easier
+D. Impossible
+Answer: B
+
+In-place merge sort uses:
+A. Random access
+B. Pointer manipulation
+C. Array indices
+D. Binary tree
+Answer: B
+
+Extra space allowed:
+A. O(n)
+B. O(log n) (recursion)
+C. O(n²)
+D. None
+Answer: B
+
+Sorting without extra space avoids:
+A. Recursion
+B. New node creation
+C. Temp arrays/dummy lists
+D. Pointers
+Answer: C
+
+Best time complexity achievable:
+A. O(n²)
+B. O(log n)
+C. O(n log n)
+D. O(1)
+Answer: C
+
+Comparative sorts that work without extra space for LL:
+A. Merge sort
+B. Heap sort
+C. Bucket sort
+D. Counting sort
+Answer: A
+
+Sorting without extra space focuses on optimizing:
+A. Comparisons
+B. Swaps
+C. Pointer changes
+D. Memory allocation
+Answer: D
+
+Which operation is heavily used?
+A. XOR tricks
+B. Node rearrangement
+C. Graph traversal
+D. Searching
+Answer: B
+
+11. Max Sliding Window 
+
+Sliding window maximum finds maximum in every:
+A. Window of size K
+B. Subtree
+C. Random subset
+D. Prefix
+Answer: A
+
+Optimal data structure:
+A. Stack
+B. Deque
+C. Queue
+D. Set
+Answer: B
+
+Time complexity:
+A. O(n²)
+B. O(log n)
+C. O(n)
+D. O(n log n)
+Answer: C
+
+Elements in deque are kept:
+A. Arbitrarily
+B. Sorted
+C. In decreasing order
+D. In increasing order
+Answer: C
+
+Deque front stores:
+A. Min element
+B. Max element
+C. Average
+D. Middle
+Answer: B
+
+When sliding window shifts, remove:
+A. All elements
+B. Elements out of window
+C. Odd elements
+D. None
+Answer: B
+
+Which approach is worst?
+A. Deque
+B. Naive brute force
+C. Tree map
+D. Heap queue
+Answer: B
+
+Brute force complexity:
+A. O(n)
+B. O(n log n)
+C. O(n k)
+D. O(log n)
+Answer: C
+
+Sliding window is a technique for:
+A. Subarray problems
+B. Graphs
+C. Trees
+D. Linked lists
+Answer: A
+
+If k = 1, output is:
+A. Always 0
+B. Same array
+C. Max only
+D. None
+Answer: B
+
+12. Stack Permutations
+
+Stack permutation checks if one permutation can be obtained using:
+A. Queue
+B. Stack
+C. Linked list
+D. Heap
+Answer: B
+
+Key operations allowed:
+A. Only push
+B. Only pop
+C. Push & Pop
+D. Swap
+Answer: C
+
+Stack permutation is valid if elements:
+A. Can be reordered arbitrarily
+B. Respect push-pop constraints
+C. Are sorted
+D. Are reversed
+Answer: B
+
+Data structure used for simulation:
+A. Deque
+B. Stack
+C. Priority Queue
+D. Heap
+Answer: B
+
+If target starts with 3, input starts with 1, 2, 3, first operation:
+A. Pop
+B. Push
+C. Skip
+D. Swap
+Answer: B
+
+A permutation is stackable if it avoids pattern:
+A. 231
+B. 132
+C. 123
+D. 321
+Answer: A
+
+Maximum stack height required:
+A. n
+B. n/2
+C. 2n
+D. log n
+Answer: A
+
+If stack is empty and next output doesn’t match input:
+A. Valid
+B. Invalid
+C. Continue
+D. Swap
+Answer: B
+
+Stack permutation is mainly applied to:
+A. Trees
+B. Compilers
+C. Sorting networks
+D. All above
+Answer: D
+
+Time complexity of checking a stack permutation:
+A. O(1)
+B. O(n)
+C. O(n²)
+D. O(log n)
+Answer: B
+
+
+

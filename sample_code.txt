@@ -1,0 +1,919 @@
+Priority Queue using DLL
+
+
+import java.util.Scanner;
+
+class Node {
+    int data;
+    int priority;
+    Node next;
+    Node prev;
+
+    public Node(int data, int priority) {
+        this.data = data;
+        this.priority = priority;
+        this.next = null;
+        this.prev = null;
+    }
+}
+
+public class PriorityQueueDLL {
+
+    private Node head; 
+
+    public PriorityQueueDLL() {
+        head = null;
+    }
+
+        public boolean isEmpty() {
+        return head == null;
+    }
+
+        public void enqueue(int data, int priority) {
+        Node newNode = new Node(data, priority);
+
+            if (head == null) {
+            head = newNode;
+            return;
+        }
+
+           if (priority < head.priority) {
+            newNode.next = head;
+            head.prev = newNode;
+            head = newNode;
+            return;
+        }
+
+     
+        Node current = head;
+        while (current.next != null && current.next.priority <= priority) {
+            current = current.next;
+        }
+
+        newNode.next = current.next;
+        if (current.next != null) {
+            current.next.prev = newNode;
+        }
+        newNode.prev = current;
+        current.next = newNode;
+    }
+
+
+    public void printQueue() {
+        if (isEmpty()) {
+            System.out.println("No elements in queue.");
+            return;
+        }
+
+        Node temp = head;
+        System.out.print("Priority Order: ");
+        while (temp != null) {
+            System.out.print("(" + temp.data + ", p=" + temp.priority + ") ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        PriorityQueueDLL pq = new PriorityQueueDLL();
+
+        System.out.print("Enter number of elements (n): ");
+        int n = sc.nextInt();
+
+        for (int i = 1; i <= n; i++) {
+            System.out.print("Enter data for element " + i + ": ");
+            int data = sc.nextInt();
+            System.out.print("Enter priority for element " + i + ": ");
+            int priority = sc.nextInt();
+
+            pq.enqueue(data, priority);
+        }
+
+        System.out.println();
+        pq.printQueue();
+
+        sc.close();
+    }
+}
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+Sort without extra Space
+
+
+
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        Queue<Integer> q = new LinkedList<>();
+
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+
+        System.out.println("Enter elements:");
+        for (int i = 0; i < n; i++) {
+            q.offer(sc.nextInt());
+        }
+
+        Queue<Integer> sorted = new LinkedList<>();
+
+        while (!q.isEmpty()) {
+
+            int min = Integer.MAX_VALUE;
+            int size = q.size();
+
+            // Find minimum
+            for (int i = 0; i < size; i++) {
+                int x = q.poll();
+                if (x < min) min = x;
+                q.offer(x);
+            }
+
+            boolean removed = false;
+
+            // Remove min once
+            for (int i = 0; i < size; i++) {
+                int x = q.poll();
+                if (x == min && !removed) {
+                    removed = true;
+                } else {
+                    q.offer(x);
+                }
+            }
+
+            // Place min at correct FRONT position
+            sorted.offer(min);
+        }
+
+        System.out.println("Sorted Queue:");
+        System.out.println(sorted);
+    }
+}
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Max Sliding Window
+
+
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+       Deque <Integer> d=new ArrayDeque<>();
+        Scanner in=new Scanner(System.in);
+        int n=in.nextInt();
+         int k=in.nextInt();
+        int arr[]=new int[n];
+        
+        int result[]=new int[n-k+1];
+        for(int i=0;i<n;i++)
+        {
+            arr[i]=in.nextInt();
+        }
+        
+        
+        
+        for(int i=0;i<n;i++)
+{
+
+  while(!d.isEmpty()&& d.peekFirst()<i-k+1 )
+     d.pollFirst();
+     
+   while(!d.isEmpty()&&arr[i]> arr[d.peekLast()])
+     d.pollLast();
+     
+   d.offerLast(i);
+   
+   if(i>=k-1)
+   
+   result[i-k+1]=arr[d.peekFirst()];
+    
+    
+    
+    
+}
+
+for(int i=0;i<n-k+1;i++)
+        {
+          System.out.print(result[i]);
+}
+    
+}}
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Stack permutations
+
+
+
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Main {
+
+  public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Stack <Integer> s=new Stack<>();
+        
+        int n = sc.nextInt();
+
+        int[] in = new int[n];
+        int[] out= new int[n];
+
+       for (int i = 0; i < n; i++) {
+            in[i] = sc.nextInt();
+           
+       }
+             for (int i = 0; i < n; i++) {
+            out[i] = sc.nextInt();
+        }
+
+    
+ int j=0;
+for (int i = 0; i < n; i++) {
+    
+    s.push(in[i]);
+   
+    
+     while(!s.isEmpty() && out[j]==s.peek())
+     {
+         s.pop();
+         j++;
+     }
+    
+}
+
+
+if(s.isEmpty())
+{
+      System.out.print( " true");
+}
+
+else{
+      System.out.print( "false");
+}
+
+ }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+The Celebrity problem
+
+
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        Stack <Integer> s=new Stack<>();
+        Scanner in=new Scanner(System.in);
+        int row=in.nextInt();
+        int col=in.nextInt();
+        int arr[][]=new int[row][col];
+        for(int i=0;i<row;i++)
+        {
+        for(int j=0;j<col;j++)
+        {
+            arr[i][j]=in.nextInt();
+        }}
+        
+        for(int i=0;i<row;i++)
+        {
+            s.push(i);
+        
+        while(s.size()>1)
+        {
+            int r=s.pop();
+            int c=s.pop();
+            
+            if(arr[r][c]==1)
+              s.push(c);
+            else 
+              s.push(r);
+        }}
+         int x=s.pop();
+         
+         
+         int flag=0;
+         for(int i=0;i<row;i++)
+         {
+             if(i==x)
+              continue;
+             if(arr[i][x]==0)
+             {
+             System.out.print("No celebrity");
+             flag=1;
+         }
+    }
+         for(int i=0;i<row;i++)
+         {
+             if(i==x)
+              continue;
+             if(arr[x][i]==1)
+             {
+             System.out.print("No celebrity");
+             
+             flag=1;
+         }}
+         
+        if(flag==0) 
+       System.out.println(x);
+    
+}}
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Iterative Tower of Hanoi
+
+import java.util.Scanner;
+import java.util.Stack;
+
+public class TowerOfHanoiThreeStacks {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter number of disks: ");
+        int n = scanner.nextInt();
+
+        Stack<Integer> source = new Stack<>();
+        Stack<Integer> aux = new Stack<>();
+        Stack<Integer> dest = new Stack<>();
+
+
+        for (int i = n; i >= 1; i--) {
+            source.push(i);
+        }
+
+        char s = 'S', a = 'A', d = 'D';
+
+        int totalMoves = (1 << n) - 1; // 2^n - 1
+
+        // If n is even, swap destination and auxiliary roles
+        if (n % 2 == 0) {
+            char temp = d;
+            d = a;
+            a = temp;
+        }
+
+        System.out.println("Moves:");
+
+         for (int i = 1; i <= totalMoves; i++) {
+            if (i % 3 == 1) {
+                moveBetweenPoles(source, dest, s, d);
+            } else if (i % 3 == 2) {
+                moveBetweenPoles(source, aux, s, a);
+            } else {
+                moveBetweenPoles(aux, dest, a, d);
+            }
+        }
+
+        scanner.close();
+    }
+
+       static void moveBetweenPoles(Stack<Integer> from, Stack<Integer> to, char fromName, char toName) {
+        if (from.isEmpty() && to.isEmpty()) {
+            return;
+        }
+
+        // If 'to' is empty or top of 'from' < top of 'to', move from -> to
+        if (to.isEmpty() || (!from.isEmpty() && from.peek() < to.peek())) {
+            if (!from.isEmpty()) {
+                int disk = from.pop();
+                to.push(disk);
+                System.out.println("Move disk " + disk + " from rod " + fromName + " to rod " + toName);
+            }
+        }
+        // Otherwise move to -> from
+        else {
+            int disk = to.pop();
+            from.push(disk);
+            System.out.println("Move disk " + disk + " from rod " + toName + " to rod " + fromName);
+        }
+    }
+}
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Minimum Stack
+
+
+import java.util.Scanner;
+import java.util.Stack;
+
+class MinStack {
+    Stack<Integer> s = new Stack<>();
+    Stack<Integer> st = new Stack<>();
+
+    public void push(int val) {
+        s.push(val);
+        if (st.isEmpty() || val <= st.peek()) {
+            st.push(val);
+        }
+    }
+
+    public void pop() {
+        if (s.isEmpty()) {
+            System.out.println("Stack is empty");
+            return;
+        }
+        if (s.peek().equals(st.peek())) {
+            st.pop();
+        }
+        s.pop();
+    }
+
+    public int top() {
+        return s.isEmpty() ? -1 : s.peek();
+    }
+
+    public int getMin() {
+        return st.isEmpty() ? -1 : st.peek();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        MinStack ms = new MinStack();
+
+        System.out.print("Enter number of operations: ");
+        int n = sc.nextInt();
+
+        /*
+           Operations:
+           1 x -> push(x)
+           2   -> pop()
+           3   -> top()
+           4   -> getMin()
+        */
+
+        for (int i = 0; i < n; i++) {
+            int op = sc.nextInt();
+
+            switch (op) {
+                case 1:
+                    int val = sc.nextInt();
+                    ms.push(val);
+                    break;
+
+                case 2:
+                    ms.pop();
+                    break;
+
+                case 3:
+                    System.out.println(ms.top());
+                    break;
+
+                case 4:
+                    System.out.println(ms.getMin());
+                    break;
+
+                default:
+                    System.out.println("Invalid operation");
+            }
+        }
+        sc.close();
+    }
+}
+
+
+===========================================================================================================================================================
+
+Stock Span problem
+
+
+
+import java.util.Scanner;
+import java.util.Stack;
+
+public class Main {
+
+  public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Stack <Integer> s=new Stack<>();
+        
+        int n = sc.nextInt();
+
+        int[] arr = new int[n];
+          int[] span = new int[n];
+
+       for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+              span[0]=1;
+              s.push(0);
+       
+     for (int i = 1; i < n; i++) {
+             
+             while(!s.isEmpty()&&arr[i]>arr[s.peek() ]){    
+                 s.pop();
+             }
+
+               if(s.isEmpty())
+                  span[i]=i+1;
+               else
+                  span[i]=i-s.peek();
+                  
+            s.push(i);      }
+
+        System.out.println("Stock Span:");
+        
+           for (int i = 0; i < n; i++) {
+            System.out.print(span[i] + " ");
+        }
+}
+    }
+
+
+=========================================================================================================================================================================
+
+Loop Detection
+
+
+
+import java.util.Scanner;
+
+class Node {
+    int val;
+    Node next;
+
+    Node(int x) {
+        val = x;
+        next = null;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Number of nodes
+        int n = sc.nextInt();
+
+        Node head = null;
+        Node tail = null;
+
+        // Create linked list
+        for (int i = 0; i < n; i++) {
+            int val = sc.nextInt();
+            Node newNode = new Node(val);
+
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+
+        // Given position (1-based indexing)
+        int position = sc.nextInt();
+
+        // Connect last node to given position
+        if (position > 0) {
+
+            Node current = head;
+            int count = 1;
+
+            // Traverse till count == position
+            while (current != null && count < position) {
+                current = current.next;
+                count++;
+            }
+
+            // When count == position, connect tail to current
+            if (current != null) {
+                tail.next = current;
+            }
+        }
+
+        // Check cycle
+        System.out.println(hasCycle(head));
+
+        sc.close();
+    }
+
+    // Floyd’s Cycle Detection Algorithm
+    public static boolean hasCycle(Node head) {
+        if (head == null || head.next == null) return false;
+
+        Node slow = head;
+        Node fast = head.next;
+
+        while (slow != fast) {
+            if (fast == null || fast.next == null) return false;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return true;
+    }
+}
+
+
+
+===========================================================================================================================================================
+
+Segregate even & odd nodes in a LL
+
+
+
+
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        Node head = null;
+        Node tail = null;
+
+        for (int i = 0; i < n; i++) {
+            int value = sc.nextInt();
+            Node newNode = new Node(value);
+
+            if (head == null) {
+                head = newNode;  
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+
+        System.out.print("Linked list: ");
+        printList(head);
+          print(head);
+    }
+
+    public static void printList(Node head) {
+        Node odd= head;
+        Node even= head.next;
+        Node temp=even;
+
+        while ( even!= null&&even.next!=null) {
+            odd.next=even.next;
+            odd=odd.next;
+            even.next=odd.next;
+            even=even.next;
+        }
+        
+        odd.next=temp;
+    }
+    
+    public static void print(Node head) {
+        Node cur= head;
+       
+        while ( cur!= null) {
+            System.out.print(cur.data);
+            cur=cur.next;
+            
+        }
+}}
+
+
+===========================================================================================================================================================
+
+Sort the bitonic DLL
+
+
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node next, prev;
+
+    Node(int d) { data = d; }
+}
+
+public class Main {
+
+      public static Node selectionSortDLL(Node head) {
+        if (head == null) return head;
+
+        Node i = head;
+
+        
+        while (i != null) {
+
+            Node minNode = i;
+            Node j = i.next;
+
+
+            while (j != null) {
+                if (j.data < minNode.data) {
+                    minNode = j;
+                }
+                j = j.next;
+            }
+
+       
+            int temp = i.data;
+            i.data = minNode.data;
+            minNode.data = temp;
+
+
+            i = i.next;
+        }
+
+        return head;
+    }
+    static void printDLL(Node head) {
+        Node t = head;
+        while (t != null) {
+            System.out.print(t.data + " ");
+            t = t.next;
+        }
+        System.out.println();
+    }
+
+       public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        int n = in.nextInt();
+        Node head = null, temp = null;
+
+        for (int i = 0; i < n; i++) {
+            int data = in.nextInt();
+            Node nn = new Node(data);
+
+            if (head == null) {
+                head = nn;
+                temp = nn;
+            } else {
+                temp.next = nn;
+                nn.prev = temp;
+                temp = nn;
+            }
+        }
+
+        head = selectionSortDLL(head);
+        printDLL(head);
+    }
+}
+
+
+
+===========================================================================================================================================================
+
+
+Merge sort for DLL
+
+
+
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next, prev;
+    Node(int d) { data = d; }
+}
+
+public class MergeSortDLL {
+
+    // Split list into two halves
+    static Node split(Node head) {
+        Node fast = head, slow = head;
+        while (fast != null && fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        Node second = slow.next;
+        slow.next = null;
+        if (second != null) second.prev = null;
+        return second;
+    }
+
+    // Iterative merge two sorted lists
+    static Node merge(Node a, Node b) {
+        if (a == null) return b;
+        if (b == null) return a;
+
+        Node head, tail;
+
+        // Initialize head and tail
+        if (a.data < b.data) {
+            head = tail = a;
+            a = a.next;
+        } else {
+            head = tail = b;
+            b = b.next;
+        }
+        tail.prev = null;
+
+
+        while (a != null && b != null) {
+            if (a.data < b.data) {
+                tail.next = a;
+                a.prev = tail;
+                tail = a;
+                a = a.next;
+            } else {
+                tail.next = b;
+                b.prev = tail;
+                tail = b;
+                b = b.next;
+            }
+        }
+
+        // Attach remaining nodes
+        if (a != null) {
+            tail.next = a;
+            a.prev = tail;
+        }
+        if (b != null) {
+            tail.next = b;
+            b.prev = tail;
+        }
+
+        return head;
+    }
+
+    // Merge sort
+    static Node mergeSort(Node head) {
+        if (head == null || head.next == null) return head;
+
+        Node second = split(head);
+        head = mergeSort(head);
+        second = mergeSort(second);
+
+        return merge(head, second);
+    }
+
+    // Print DLL
+    static void print(Node head) {
+        while (head != null) {
+            System.out.print(head.data + " ");
+            head = head.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+
+        if (n <= 0) {
+            System.out.println("List is empty");
+            return;
+        }
+
+        System.out.println("Enter elements:");
+        int val = sc.nextInt();
+        Node head = new Node(val);
+        Node curr = head;
+
+        for (int i = 1; i < n; i++) {
+            val = sc.nextInt();
+            Node node = new Node(val);
+            curr.next = node;
+            node.prev = curr;
+            curr = node;
+        }
+
+        head = mergeSort(head);
+
+        System.out.println("Sorted DLL:");
+        print(head);
+
+        sc.close();
+    }
+}
+
+
+
+
+
