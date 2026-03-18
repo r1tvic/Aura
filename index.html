@@ -1785,6 +1785,8 @@
         // Parse codes from text
         function parseCodes(text) {
             codes = [];
+            // Normalize CRLF to LF to ensure the regex splits correctly across different OS file formats
+            text = text.replace(/\r/g, '');
             const parts = text.split(/\n[-=]{20,}\n[-=]{20,}\n|\n[-=]{50,}\n/);
 
             parts.forEach(part => {
