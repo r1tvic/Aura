@@ -1,0 +1,936 @@
+1. Recover the BST
+
+What is the primary purpose of recovering a Binary Search Tree (BST)?
+A. To optimize its search operation
+B. To ensure its structural integrity after modifications
+C. To reduce its memory consumption
+D. To increase its traversal speed
+Answer: B
+
+Which of the following operations can lead to the need for recovering a BST?
+A. Insertion
+B. Deletion
+C. Searching
+D. Traversal
+Answer: B
+
+In a Binary Search Tree, what property must be maintained after a node deletion?
+A. In-order traversal property
+B. Pre-order traversal property
+C. Post-order traversal property
+D. Binary search property
+Answer: D
+
+Which of the following algorithms can be used for recovering a BST after a deletion?
+A. Breadth-first search (BFS)
+B. Depth-first search (DFS)
+C. In-order traversal
+D. Dijkstra's algorithm
+Answer: C
+
+What does the in-order traversal of a BST produce?
+A. Nodes in sorted order
+B. Nodes in reverse sorted order
+C. Nodes in random order
+D. Nodes in the order they were inserted
+Answer: A
+
+When recovering a BST after a deletion, which of the following cases is the simplest to handle?
+A. Node with no children
+B. Node with one child
+C. Node with two children
+D. Node with three children
+Answer: A
+
+Which of the following is NOT a step in recovering a BST after a deletion?
+A. Finding the node to be deleted
+B. Deleting the node
+C. Rebalancing the tree
+D. Reorganizing the tree to maintain the binary search property
+Answer: C
+
+Which data structure is commonly used for tracking parent nodes during BST recovery?
+A. Queue
+B. Stack
+C. Linked list
+D. Array
+Answer: B
+
+In the case of a node with two children being deleted from a BST, which node is typically chosen as its replacement?
+A. The node's left child
+B. The node's right child
+C. The node's parent
+D. A random node from the tree
+Answer: B
+
+After recovering a BST following a deletion, what operation should be performed to ensure the tree is balanced?
+A. Rotate the tree
+B. Reorder the nodes
+C. Recalculate the heights of all nodes
+D. Perform a rebalancing operation like AVL or Red-Black tree rotations
+Answer: D
+
+2. Views of tree
+
+What is the view of a tree?
+A. The way the tree is displayed on the screen
+B. The total number of nodes in the tree
+C. The representation of the tree from a particular direction
+D. The height of the tree
+Answer: C
+
+Which of the following is NOT a type of tree view?
+A. Level order view
+B. Pre-order view
+C. In-order view
+D. Post-order view
+Answer: B
+
+What does the level order view of a tree display?
+A. Nodes at odd levels
+B. Nodes at even levels
+C. Nodes at every level, from left to right
+D. Nodes at the root level only
+Answer: C
+
+Which view of a tree displays nodes as they are encountered during a depth-first traversal?
+A. In-order view
+B. Pre-order view
+C. Post-order view
+D. Level order view
+Answer: B
+
+In the post-order view of a binary tree, when is a node visited?
+A. Before visiting its left child
+B. After visiting its left child
+C. Before visiting its right child
+D. After visiting its right child
+Answer: D
+
+Which view of a tree is also known as the breadth-first traversal?
+A. Pre-order view
+B. In-order view
+C. Level order view
+D. Post-order view
+Answer: C
+
+Which view of a binary tree is used in the expression tree evaluation?
+A. Pre-order view
+B. In-order view
+C. Post-order view
+D. Level order view
+Answer: B
+
+What is the main advantage of the level order view of a tree?
+A. It requires less memory
+B. It is faster than other views
+C. It displays the structure of the tree clearly
+D. It is easier to implement
+Answer: C
+
+Which view of a binary tree is used to create a copy of the tree?
+A. Pre-order view
+B. In-order view
+C. Post-order view
+D. Level order view
+Answer: A
+
+In a binary tree, which view provides nodes in non-decreasing order when the tree is a binary search tree (BST)?
+A. Pre-order view
+B. In-order view
+C. Post-order view
+D. Level order view
+Answer: B
+
+3. BFS
+
+What is Breadth-First Search (BFS) primarily used for?
+A. Finding the shortest path in a weighted graph
+B. Traversing and searching tree or graph data structures
+C. Sorting elements in an array
+D. Determining the longest path in a directed acyclic graph (DAG)
+Answer: B
+
+In BFS, which data structure is typically used to store the vertices of the graph or tree?
+A. Stack
+B. Queue
+C. Priority queue
+D. Linked list
+Answer: B
+
+What is the time complexity of BFS when applied to an adjacency matrix representation of a graph with V vertices and E edges?
+A. O(V)
+B. O(E)
+C. O(V + E)
+D. O(V \log V)
+Answer: C
+
+In BFS, which vertices are explored first?
+A. Vertices with lower degree
+B. Vertices with higher degree
+C. Vertices with the lowest value
+D. Vertices with the highest value
+Answer: C
+
+What is the order of traversal in BFS?
+A. Depth-first
+B. Pre-order
+C. Post-order
+D. Level-order
+Answer: D
+
+In BFS, which traversal strategy is employed to visit neighboring vertices of a vertex?
+A. Depth-first traversal
+B. In-order traversal
+C. Level-order traversal
+D. Post-order traversal
+Answer: C
+
+Which of the following statements about BFS is true?
+A. BFS can be used to find the topological sorting of a graph.
+B. BFS cannot handle graphs with cycles.
+C. BFS is not optimal for finding the shortest path in an unweighted graph.
+D. BFS explores vertices in the order they are discovered.
+Answer: D
+
+Which of the following is NOT a step in BFS?
+A. Enqueue the starting vertex
+B. Dequeue the starting vertex
+C. Enqueue neighboring vertices
+D. Dequeue neighboring vertices
+Answer: B
+
+In BFS, when should a visited vertex be enqueued?
+A. Before exploring its neighbors
+B. After exploring its neighbors
+C. Before dequeueing its neighbors
+D. After dequeueing its neighbors
+Answer: A
+
+What is the space complexity of BFS?
+A. O(V)
+B. O(E)
+C. O(V + E)
+D. O(V \log V)
+Answer: A
+
+4. DFS
+
+What is Depth-First Search (DFS) primarily used for?
+A. Finding the shortest path in a weighted graph
+B. Traversing and searching tree or graph data structures
+C. Sorting elements in an array
+D. Determining the longest path in a directed acyclic graph (DAG)
+Answer: B
+
+Which data structure is typically used for implementing DFS?
+A. Queue
+B. Stack
+C. Priority queue
+D. Linked list
+Answer: B
+
+What is the time complexity of DFS when applied to an adjacency list representation of a graph with V vertices and E edges?
+A. O(V)
+B. O(E)
+C. O(V + E)
+D. O(V \log V)
+Answer: C
+
+In DFS, which traversal strategy is employed to explore neighboring vertices?
+A. Depth-first traversal
+B. In-order traversal
+C. Level-order traversal
+D. Post-order traversal
+Answer: A
+
+What is the order of traversal in DFS?
+A. Depth-first
+B. Pre-order
+C. Post-order
+D. Level-order
+Answer: A
+
+Which of the following statements about DFS is true?
+A. DFS always finds the shortest path in a graph.
+B. DFS uses a FIFO strategy for exploring vertices.
+C. DFS may result in a disconnected graph.
+D. DFS explores vertices in the order they are discovered.
+Answer: C
+
+What is the main disadvantage of using recursion for implementing DFS?
+A. Recursion has higher space complexity compared to iterative methods.
+B. Recursion is slower than iterative methods.
+C. Recursion may lead to stack overflow for large graphs.
+D. Recursion cannot handle graphs with cycles.
+Answer: C
+
+Which of the following is NOT a step in DFS?
+A. Enqueue the starting vertex
+B. Process the current vertex
+C. Recursively explore neighboring vertices
+D. Backtrack to the previous vertex
+Answer: A
+
+In DFS, when should a visited vertex be marked?
+A. Before exploring its neighbors
+B. After exploring its neighbors
+C. Before recursively calling DFS on its neighbors
+D. After recursively calling DFS on its neighbors
+Answer: B
+
+What is the space complexity of DFS?
+A. O(V)
+B. O(E)
+C. O(V + E)
+D. O(V \log V)
+Answer: A
+
+5. Binomial heap
+
+What is a binomial tree?
+A. A tree where each node has at most two children
+B. A tree where each node has exactly two children
+C. A tree with a specific ordering of nodes
+D. A tree used in binary search algorithms
+Answer: B
+
+Which operation is NOT supported efficiently by a binomial heap?
+A. Insertion
+B. Deletion
+C. Union
+D. Search
+Answer: D
+
+In a binomial heap, what is the time complexity of inserting a new element?
+A. O(\log n)
+B. O(n)
+C. O(\log^2 n)
+D. O(1)
+Answer: A
+
+What is the maximum height of a binomial tree with n nodes?
+A. n
+B. 2n
+C. \log_2 n
+D. \log_2 (n+1)
+Answer: D
+
+Which of the following is a property of a binomial tree of order k?
+A. It has k children
+B. It has 2^k nodes
+C. It has k+1 nodes
+D. It has 2^{k+1} - 1 nodes
+Answer: B
+
+What operation is typically used to merge two binomial heaps?
+A. Union
+B. Intersection
+C. Difference
+D. Addition
+Answer: A
+
+Which of the following statements about binomial heaps is true?
+A. They are always balanced binary trees
+B. They support constant time insertion and deletion
+C. They are typically implemented using arrays
+D. They have a worst-case time complexity of O(\log n) for most operations
+Answer: D
+
+In a binomial heap, what is the purpose of the "merge" operation?
+A. Combining two trees of the same order into one tree of the next order
+B. Splitting a tree into smaller trees
+C. Finding the minimum element in the heap
+D. Deleting an element from the heap
+Answer: A
+
+Which of the following is NOT a common application of binomial heaps?
+A. Priority queue
+B. Sorting algorithms
+C. Dijkstra's shortest path algorithm
+D. Prim's minimum spanning tree algorithm
+Answer: B
+
+What is the advantage of using a binomial heap over a binary heap?
+A. Binomial heaps have better worst-case time complexity for most operations
+B. Binary heaps are more space efficient
+C. Binomial heaps support more operations
+D. Binary heaps are easier to implement
+Answer: A
+
+6. Winner tree
+
+What is the purpose of a winner tree?
+A. To store elements in a sorted order
+B. To efficiently find the maximum (or minimum) element among a set of elements
+C. To balance binary search trees
+D. To implement priority queues
+Answer: B
+
+In a winner tree, what do the leaves represent?
+A. Internal nodes
+B. The maximum element
+C. The elements themselves
+D. The minimum element
+Answer: C
+
+How are winner trees commonly used in algorithms?
+A. For graph traversal
+B. For heap sort
+C. For tournament-style algorithms
+D. For binary search
+Answer: C
+
+Which node of a winner tree contains the overall winner?
+A. Root node
+B. Leaf nodes
+C. Internal nodes
+D. None of the above
+Answer: A
+
+What operation is performed to construct a winner tree?
+A. Merge
+B. Compare
+C. Split
+D. Rotate
+Answer: B
+
+Which of the following is NOT a step in using a winner tree to find the maximum element?
+A. Initialize the winner tree
+B. Insert elements in random order
+C. Construct the winner tree
+D. Access the root node
+Answer: B
+
+What type of elements can be compared using a winner tree?
+A. Numbers only
+B. Strings only
+C. Any comparable elements
+D. Only elements of the same type
+Answer: C
+
+How does a winner tree compare elements?
+A. Using hashing
+B. By iterating through all elements
+C. By comparing pairs of elements recursively
+D. By performing binary search
+Answer: C
+
+Which data structure is NOT commonly implemented using winner trees?
+A. Priority queue
+B. Heap
+C. Hash table
+D. Tournament bracket
+Answer: C
+
+In a winner tree with n elements, how many comparisons are needed to find the maximum element?
+A. n
+B. \log n
+C. 2n - 1
+D. n - 1
+Answer: C
+Note: (n-1) internal node is there and 2n-1 comparison
+
+7. Bellmen ford algorithm
+
+What is the Bellman-Ford algorithm used for?
+A. Finding the shortest path in a weighted directed graph with negative edge weights
+B. Sorting elements in an array
+C. Implementing a priority queue
+D. Searching for an element in a binary search tree
+Answer: A
+
+Which data structure is commonly used to represent graphs in the Bellman-Ford algorithm?
+A. Arrays
+B. Linked lists
+C. Hash tables
+D. Adjacency matrices or adjacency lists
+Answer: D
+
+What is the time complexity of the Bellman-Ford algorithm?
+A. O(V)
+B. O(V \log V)
+C. O(V + E)
+D. O(V^2)
+Answer: C
+
+In the context of the Bellman-Ford algorithm, what does "V" represent?
+A. The number of vertices in the graph
+B. The number of edges in the graph
+C. The maximum possible weight of an edge
+D. The source vertex
+Answer: A
+
+What does the Bellman-Ford algorithm initialize the shortest distance to each vertex with?
+A. Positive infinity
+B. Negative infinity
+C. Zero
+D. The weight of the source vertex to itself
+Answer: A
+
+What is the purpose of the relaxation step in the Bellman-Ford algorithm?
+A. To initialize the shortest distances
+B. To update the shortest distances if a shorter path is found
+C. To remove edges with negative weights
+D. To reverse the direction of edges in the graph
+Answer: B
+
+What does a negative cycle in a graph indicate in the context of the Bellman-Ford algorithm?
+A. The graph has no shortest paths
+B. The graph contains edges with negative weights
+C. The graph has multiple shortest paths between some pairs of vertices
+D. The graph has a cycle whose total weight is negative
+Answer: D
+
+Which step in the Bellman-Ford algorithm detects negative cycles?
+A. Initialization
+B. Relaxation
+C. Shortest path determination
+D. Negative cycle detection
+Answer: D
+
+When does the Bellman-Ford algorithm terminate?
+A. After a fixed number of iterations
+B. When all vertices have been visited
+C. When no more relaxation can be performed
+D. When a negative cycle is detected
+Answer: C
+
+What does the Bellman-Ford algorithm return if a negative cycle is detected?
+A. The shortest paths to all vertices
+B. The shortest path from the source vertex to a specific target vertex
+C. An error indicating the presence of a negative cycle
+D. The length of the shortest path
+Answer: C
+
+8. Dials algorithm
+
+What is the Dial's Algorithm used for?
+A. Finding the maximum flow in a network
+B. Sorting elements in an array
+C. Finding the shortest path in a graph with non-negative edge weights
+D. Detecting negative cycles in a graph
+Answer: C
+
+Which data structure does the Dial's Algorithm utilize?
+A. Arrays
+B. Linked lists
+C. Priority queues
+D. Stacks
+Answer: A
+
+What does each bucket in the Dial's Algorithm contain?
+A. Vertices
+B. Edges
+C. Distances from the source vertex
+D. Paths
+Answer: A
+
+How are the buckets indexed in the Dial's Algorithm?
+A. By vertex IDs
+B. By vertex distances from the source
+C. By edge weights
+D. By vertex degrees
+Answer: B
+
+What is the time complexity of the Dial's Algorithm?
+A. O(V)
+B. O(V \log V)
+C. O(V + E)
+D. O(E \log V)
+Answer: C
+
+When does the Dial's Algorithm terminate?
+A. When all vertices are visited
+B. When all buckets are empty
+C. When a negative cycle is detected
+D. When the maximum flow is reached
+Answer: B
+
+What operation is performed during each iteration of the Dial's Algorithm?
+A. Vertex relaxation
+B. Edge relaxation
+C. Bucket selection
+D. Bucket sort
+Answer: A
+
+What does the Dial's Algorithm prioritize during bucket selection?
+A. Buckets with the most vertices
+B. Buckets with the fewest vertices
+C. Buckets with the highest distances
+D. Buckets with the lowest distances
+Answer: B
+
+Which type of graphs is the Dial's Algorithm most suitable for?
+A. Graphs with negative edge weights
+B. Graphs with positive edge weights
+C. Graphs with non-negative edge weights and a limited range of weights
+D. Graphs with arbitrary edge weights
+Answer: C
+
+What does the Dial's Algorithm return as output?
+A. The maximum flow in the network
+B. The shortest paths from the source vertex to all other vertices
+C. An error if a negative cycle is detected
+D. The vertices visited during the traversal
+Answer: B
+
+9. Topological sort
+
+What is topological sorting used for?
+A. Finding shortest paths in a graph
+B. Detecting cycles in a graph
+C. Ordering tasks with dependencies
+D. Generating minimum spanning trees
+Answer: C
+
+Which of the following data structures is commonly used to implement topological sorting?
+A. Queue
+B. Stack
+C. Array
+D. Heap
+Answer: B
+
+In a directed acyclic graph (DAG), topological sorting results in:
+A. A linear ordering of vertices
+B. A minimum spanning tree
+C. A cyclic dependency graph
+D. A binary search tree
+Answer: A
+
+Which algorithm is commonly used to perform topological sorting?
+A. Breadth-first search (BFS)
+B. Depth-first search (DFS)
+C. Dijkstra's algorithm
+D. Prim's algorithm
+Answer: B
+
+In topological sorting, vertices with no incoming edges are processed:
+A. First
+B. Last
+C. Randomly
+D. In any order
+Answer: A
+
+If a graph has a cycle, what happens during topological sorting?
+A. The algorithm fails
+B. The cycle is ignored
+C. The cycle is broken
+D. The algorithm continues indefinitely
+Answer: A
+
+Topological sorting can be applied to which type of graphs?
+A. Directed graphs
+B. Undirected graphs
+C. Weighted graphs
+D. Bipartite graphs
+Answer: A
+
+Which of the following statements is true about topological sorting?
+A. It always produces a unique ordering of vertices.
+B. It can only be applied to graphs with a single source and sink.
+C. It can have multiple valid orderings for a given graph.
+D. It has a time complexity of O(n\log n).
+Answer: C
+
+In a directed acyclic graph (DAG), if there are multiple vertices with no incoming edges, which one is processed first during topological sorting?
+A. The vertex with the highest index
+B. The vertex with the lowest index
+C. Any of the vertices with no incoming edges
+D. None of the above
+Answer: C
+
+In a directed acyclic graph (DAG) with vertices a, b, c, d, and e and edges ab, bc, cd, and de, what would be the topological sorting order?
+A. a, b, c, d, e
+B. e, d, c, b, a
+C. a, e, b, c, d
+D. a, b, c, e, d
+Answer: A
+
+10. Vertical order traversal
+
+What does vertical order traversal of a binary tree involve?
+A. Traversing the tree level by level
+B. Visiting nodes from left to right
+C. Exploring nodes from top to bottom
+D. Grouping nodes based on their horizontal distance from the root
+Answer: D
+
+Which data structure is commonly used to perform vertical order traversal?
+A. Array
+B. Queue
+C. Stack
+D. Linked list
+Answer: B
+
+In vertical order traversal, nodes at the same horizontal distance are visited in which order?
+A. Random
+B. Pre-order
+C. Level-order
+D. Post-order
+Answer: C
+
+What is the time complexity of vertical order traversal in a binary tree with n nodes?
+A. O(n)
+B. O(n \log n)
+C. O(n^2)
+D. O(2^n)
+Answer: A
+
+Which traversal technique is typically used to implement vertical order traversal?
+A. Depth-first traversal
+B. Breadth-first traversal
+C. In-order traversal
+D. Pre-order traversal
+Answer: B
+
+In vertical order traversal, which node is visited first at a particular horizontal distance?
+A. Left child
+B. Right child
+C. Root node
+D. Parent node
+Answer: C
+
+If two nodes in a binary tree have the same horizontal distance from the root, which one is visited first in vertical order traversal?
+A. Left node
+B. Right node
+C. It depends on the tree structure
+D. Both nodes are visited simultaneously
+Answer: A
+
+Which of the following statements is true about vertical order traversal?
+A. It only works for balanced binary trees
+B. It doesn't guarantee the nodes will be visited in sorted order
+C. It preserves the original tree structure
+D. It cannot handle binary trees with more than two children per node
+Answer: B
+
+What is the space complexity of vertical order traversal?
+A. O(n)
+B. O(\log n)
+C. O(1)
+D. O(n^2)
+Answer: A
+
+Which of the following scenarios might require additional techniques to handle during vertical order traversal?
+A. Binary tree with only one child per node
+B. Binary tree with multiple nodes at the same horizontal distance
+C. Binary tree with unbalanced branches
+D. Binary tree with a height less than two
+Answer: B
+
+11. Boundary traversal
+
+What does boundary traversal of a binary tree involve?
+A. Visiting all nodes in a left-to-right order
+B. Exploring nodes from top to bottom
+C. Traversing only the nodes on the boundary of the tree
+D. Processing nodes in a bottom-up manner
+Answer: C
+
+Which of the following nodes is included in the boundary traversal of a binary tree?
+A. Only leaf nodes
+B. Only internal nodes
+C. Both leaf and internal nodes
+D. Neither leaf nor internal nodes
+Answer: C
+
+In boundary traversal, in what order are the nodes visited?
+A. Pre-order
+B. In-order
+C. Post-order
+D. Level-order
+Answer: A
+
+What is the time complexity of boundary traversal in a binary tree with n nodes?
+A. O(n)
+B. O(n \log n)
+C. O(n^2)
+D. O(2^n)
+Answer: A
+
+Which traversal technique is typically used to implement boundary traversal?
+A. Depth-first traversal
+B. Breadth-first traversal
+C. In-order traversal
+D. Pre-order traversal
+Answer: A
+
+In boundary traversal, which node is visited first?
+A. Left child
+B. Right child
+C. Root node
+D. Leaf node
+Answer: C
+
+If a binary tree has only one node, how many nodes will be included in its boundary traversal?
+A. 0
+B. 1
+C. 2
+D. Depends on the value of the node
+Answer: B
+
+Which of the following statements is true about boundary traversal?
+A. It always starts from the leftmost leaf node
+B. It includes all nodes except for the leaf nodes
+C. It preserves the original tree structure
+D. It guarantees that nodes are visited in a Anti clock
+Answer: D
+
+What is the space complexity of boundary traversal?
+A. O(n)
+B. O(\log n)
+C. O(1)
+D. O(n^2)
+Answer: A
+
+Which of the following scenarios might require additional techniques to handle during boundary traversal?
+A. Binary tree with only one child per node
+B. Binary tree with multiple nodes at the same level
+C. Binary tree with unbalanced branches
+D. Binary tree with a height less than two
+Answer: C
+
+12. Heap sort
+
+What is heap sort primarily used for?
+A. Sorting linked lists
+B. Sorting arrays
+C. Searching in trees
+D. Graph traversal
+Answer: B
+
+Which data structure is used to implement heap sort?
+A. Queue
+B. Stack
+C. Heap
+D. Linked list
+Answer: C
+
+What type of heap is typically used in heap sort?
+A. Max heap
+B. Min heap
+C. Binary tree
+D. AVL tree
+Answer: A
+
+What is the time complexity of heap sort in the worst-case scenario?
+A. O(n)
+B. O(n \log n)
+C. O(n^2)
+D. O(2^n)
+Answer: B
+
+In heap sort, which operation is used to ensure that the heap property is maintained?
+A. Insertion
+B. Deletion
+C. Heapify
+D. Merge
+Answer: C
+
+Which of the following statements is true about heap sort?
+A. It is a stable sorting algorithm
+B. It requires additional storage space proportional to the size of the input
+C. It performs better than quicksort in most cases
+D. It is an in-place sorting algorithm
+Answer: D
+
+In heap sort, after building the heap, what is the root element of the heap?
+A. Maximum element
+B. Minimum element
+C. Median element
+D. Random element
+Answer: A
+
+Which of the following is a drawback of heap sort?
+A. It is not a stable sorting algorithm
+B. It cannot handle large datasets
+C. It is not a comparison-based sorting algorithm
+D. It is not suitable for parallel processing
+Answer: A
+
+What is the space complexity of heap sort?
+A. O(n)
+B. O(\log n)
+C. O(1)
+D. O(n^2)
+Answer: C
+
+Which sorting algorithm does heap sort share similarities with in terms of its underlying data structure?
+A. Bubble sort
+B. Merge sort
+C. Quick sort
+D. Selection sort
+Answer: B
+
+13. K-Array heap
+
+What is a K-ary heap?
+A. A binary tree where each node has at most K children
+B. A heap with K elements in each level
+C. A tree where each node has exactly K children
+D. A heap with K elements in total
+Answer: A
+
+In a K-ary heap, what is the maximum number of elements in the last level if there are N elements in total?
+A. K
+B. K - 1
+C. N % K
+D. K^2
+Answer: C
+
+Which operation has a time complexity of O(log K) in a K-ary heap?
+A. Insertion
+B. Deletion
+C. Building a heap
+D. Finding the minimum element
+Answer: A
+
+How is a K-ary heap represented in memory?
+A. As a binary tree
+B. As an array
+C. As a linked list
+D. As a balanced tree
+Answer: B
+
+What is the height of a K-ary heap with N elements?
+A. log(N)
+B. log(K, N)
+C. N/K
+D. log(K) + log(N)
+Answer: B
+
+Which operation requires the most work in a K-ary heap when removing the root element?
+A. Finding the parent node
+B. Finding the children nodes
+C. Reorganizing the heap
+D. Deleting the root element
+Answer: C
+
+In a K-ary heap, what is the relationship between the index of a parent node and its children?
+A. The parent index is greater than its children indices
+B. The parent index is equal to the sum of its children indices
+C. The parent index is divisible by its children indices
+D. The parent index is smaller than its children indices
+Answer: C
+
+Which of the following is true about a K-ary heap?
+A. It guarantees constant time for all operations
+B. It is always a balanced tree
+C. It is a complete binary tree
+D. It does not support insertion operation
+Answer: C
+
+How many comparisons are needed in the worst-case scenario for finding the maximum element in a K-ary heap?
+A. K
+B. log(K)
+C. K log(K)
+D. N
+Answer: A
+
+Which of the following is a disadvantage of using a large value of K in a K-ary heap?
+A. Faster insertion operation
+B. Increased space efficiency
+C. Slower heapification process
+D. Reduced number of comparisons
+Answer: C
