@@ -1,0 +1,1131 @@
+Heap Sort
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int arr[] = new int[n];
+        
+        for(int i = 0; i < n; i++) {
+            arr[i] = in.nextInt();
+        }
+        
+        heapSort(arr, n);
+        
+        // Print the sorted array
+        for(int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+    }
+ 
+    public static void heapSort(int arr[], int n) {
+        // Step 1: Build a Max-Heap from the input array.
+        // We start from the last non-leaf node (n/2 - 1) and heapify down to the root.
+        for(int i = n / 2 - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+        }
+     
+        // Step 2: Extract elements one by one from the heap.
+        for(int i = n - 1; i >= 0; i--) {
+            // Move current root (the maximum element) to the end of the array.
+            int temp = arr[i];
+            arr[i] = arr[0];
+            arr[0] = temp;
+     
+            // Call max heapify on the reduced heap to restore the Max-Heap property.
+            heapify(arr, i, 0);
+        }
+    }
+    
+    // To heapify a subtree rooted with node i which is an index in arr[].
+    // n is the size of the heap.
+    public static void heapify(int arr[], int n, int i) {
+        int root = i; // Initialize largest as root
+        int left = 2 * i + 1; // Left child index = 2*i + 1
+        int right = 2 * i + 2; // Right child index = 2*i + 2
+     
+        // If left child is larger than root
+        if(left < n && arr[left] > arr[root]) {
+            root = left;
+        }
+     
+        // If right child is larger than largest so far
+        if(right < n && arr[right] > arr[root]) {
+            root = right;
+        }
+     
+        // If largest is not root, swap and continue heapifying
+        if(root != i) {
+            int temp = arr[i];
+            arr[i] = arr[root];
+            arr[root] = temp;
+     
+            // Recursively heapify the affected sub-tree
+            heapify(arr, n, root);
+        }
+    }
+}
+
+===========================================================================================================================================================
+
+K-ary Heap
+
+import java.util.*;
+
+public class Main {
+    // Heapify function for a K-ary heap
+    static void heapify(int arr[], int n, int i, int k) {
+        int largest = i;
+        
+        // Loop through all 'k' children of the current node 'i'
+        for (int j = 1; j <= k; j++) {
+            int child = k * i + j; // Formula to find the j-th child in a 0-indexed array
+            
+            // If the child is within bounds and greater than the current largest, update largest
+            if (child < n && arr[child] > arr[largest]) {
+                largest = child;
+            }
+        }
+        
+        // If the largest is not the current node, swap them and recursively heapify
+        if (largest != i) {
+            int temp = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = temp;
+            heapify(arr, n, largest, k);
+        }
+    }
+    
+    // Inserts a new key into the K-ary heap
+    static int insert(int arr[], int n, int key, int k) {
+        arr[n] = key; // Place the new key at the end
+        n++;
+        
+        // Heapify from the parent of the last node up to the root to maintain Max-Heap property
+        for (int i = (n - 2) / k; i >= 0; i--) {
+            heapify(arr, n, i, k);
+        }
+        return n;
+    }
+    
+    // Extracts the maximum element (root) from the heap
+    static int extractMax(int arr[], int n, int k) {
+        int max = arr[0];
+        arr[0] = arr[n - 1]; // Move the last element to the root
+        n--; // Reduce heap size
+        
+        // Restore Max-Heap property from the root
+        heapify(arr, n, 0, k);
+        System.out.println("\nExtracted max is: " + max);
+        return n;
+    }
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int capacity = sc.nextInt();
+        int arr[] = new int[capacity + 10]; // Adding buffer capacity
+        
+        for (int i = 0; i < capacity; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int n = sc.nextInt(); // Current number of elements
+        int k = sc.nextInt(); // 'K' value for K-ary heap
+        
+        // Build the K-ary heap
+        for (int i = (n - 2) / k; i >= 0; i--) {
+            heapify(arr, n, i, k);
+        }
+        
+        System.out.println("Built Heap:");
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        
+        n = insert(arr, n, 3, k);
+        System.out.println("\nHeap after insertion of 3:");
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        
+        n = extractMax(arr, n, k);
+        System.out.println("Heap after extract max:");
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " ");
+        }
+    }
+}
+
+===========================================================================================================================================================
+
+Winner Tree
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        if (n < 2) {
+            System.out.println("Need at least 2 elements");
+            return;
+        }
+        
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        // Find the next power of 2 for a complete binary tree leaf-level
+        int size = 1;
+        while (size < n) {
+            size = size * 2;
+        }
+        
+        // The tree array will be 2 * size. Leaves start at index 'size'
+        int[] tree = new int[2 * size];
+        
+        // Populate the leaf nodes
+        for (int i = 0; i < size; i++) {
+            if (i < n)
+                tree[size + i] = arr[i];
+            else
+                tree[size + i] = Integer.MAX_VALUE; // Pad extra leaves with infinity
+        }
+        
+        // Build the winner tree bottom-up. Each parent is the minimum of its two children
+        for (int i = size - 1; i > 0; i--) {
+            tree[i] = Math.min(tree[2 * i], tree[2 * i + 1]);
+        }
+        
+        System.out.println("First Minimum:" + tree[1]);
+        int secondMin = findSecondMin(tree, size);
+        System.out.println("Second Minimum:" + secondMin);
+        printLevelOrder(tree, size);
+    }
+    
+    // Finds the second minimum by tracing the path of the overall winner
+    public static int findSecondMin(int[] tree, int size) {
+        int secondMin = Integer.MAX_VALUE;
+        int index = 1; // Start at root
+        
+        while (index < size) {
+            int left = 2 * index;
+            int right = 2 * index + 1;
+            
+            // If the left child was the winner, compare the second minimum candidate with the right child
+            if (tree[index] == tree[left]) {
+                secondMin = Math.min(secondMin, tree[right]);
+                index = left; // Follow the winner's path down
+            } else {
+                // If the right child was the winner
+                secondMin = Math.min(secondMin, tree[left]);
+                index = right;
+            }
+        }
+        return secondMin;
+    }
+    
+    // Utility to print the tree level by level
+    public static void printLevelOrder(int[] tree, int size) {
+        System.out.println("Winner Tree Level by Level:");
+        int index = 1;
+        int nodes = 1; // Number of nodes at the current level
+        
+        while (index < 2 * size) {
+            for (int i = 0; i < nodes && index < 2 * size; i++) {
+                if (tree[index] != Integer.MAX_VALUE)
+                    System.out.print(tree[index] + " ");
+                index++;
+            }
+            System.out.println();
+            nodes = nodes * 2; // Next level has twice as many nodes
+        }
+    }
+}
+
+===========================================================================================================================================================
+
+Binomial Heap
+
+import java.util.*;
+
+class Main {
+    // A binomial heap is represented as a list of Binomial Trees.
+    // Index 'i' stores the Binomial Tree of degree 'i'.
+    static List<List<Integer>> heap = new ArrayList<>();
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        
+        for(int i = 0; i < n; i++) {
+            insert(sc.nextInt());
+        }
+        
+        printHeapStructure();
+    }
+ 
+    static void insert(int key) {
+        List<Integer> tree = new ArrayList<>();
+        tree.add(key);
+        int degree = 0; // The new tree initially has a degree of 0
+        
+        while(true) {
+            // If the position in the heap is not present -> expand heap and place tree
+            if(degree >= heap.size()) {
+                heap.add(tree);
+                break;
+            }
+            // If the position is empty -> place the tree here safely
+            if(heap.get(degree).isEmpty()) {
+                heap.set(degree, tree);
+                break;
+            }
+            // If a tree of the same degree already exists -> merge them and increment degree
+            else {
+                tree = merge(heap.get(degree), tree);
+                // Clear the old tree since it was merged
+                heap.set(degree, new ArrayList<>());
+                degree++;
+            }
+        }
+    }
+    
+    // Merges two Binomial Trees of the SAME degree. The smaller root becomes the parent.
+    static List<Integer> merge(List<Integer> t1, List<Integer> t2) {
+        List<Integer> res = new ArrayList<>();
+        
+        if(t1.get(0) < t2.get(0)) {
+            res.addAll(t1);
+            res.addAll(t2);
+        } else {
+            res.addAll(t2);
+            res.addAll(t1);
+        }
+        return res;
+    }
+    
+    // Prints the heap structure showing each valid binomial tree
+    static void printHeapStructure() {
+        System.out.println("Binomial Heap Structure:");
+        
+        for(int i = 0; i < heap.size(); i++) {
+            if(heap.get(i).isEmpty())
+                continue;
+            
+            System.out.println("B" + i + " Tree:");
+            List<Integer> tree = heap.get(i);
+            int nodes = tree.size();
+            int level = 1;
+            int index = 0;
+            
+            // Print tree level by level
+            while(index < nodes) {
+                for(int j = 0; j < level && index < nodes; j++) {
+                    System.out.print(tree.get(index) + " ");
+                    index++;
+                }
+                level *= 2;
+                System.out.println();
+            }
+            System.out.println();
+        }
+    }
+}
+
+===========================================================================================================================================================
+
+Graph: BFS & DFS
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of vertices:");
+        int v = sc.nextInt();
+        System.out.print("Enter number of edges:");
+        int e = sc.nextInt();
+        
+        // Using an Adjacency List to represent the graph
+        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
+        
+        for (int i = 0; i < v; i++) {
+            graph.add(new ArrayList<>());
+        }
+        
+        System.out.println("Enter edges (source destination):");
+        for (int i = 0; i < e; i++) {
+            int src = sc.nextInt();
+            int dest = sc.nextInt();
+            
+            // Undirected graph setup
+            graph.get(src).add(dest);
+            graph.get(dest).add(src);
+        }
+        
+        System.out.print("Enter starting vertex:");
+        int start = sc.nextInt();
+        
+        bfs(graph, start, v);
+        System.out.println(); // Formatting newline
+        dfs(graph, start, v);
+        
+        sc.close();
+    }
+    
+    // Breadth-First Search (BFS) uses a Queue
+    static void bfs(ArrayList<ArrayList<Integer>> graph, int start, int v) {
+        boolean vis[] = new boolean[v];
+        Queue<Integer> q = new LinkedList<>();
+        
+        q.add(start);
+        vis[start] = true;
+        
+        System.out.println("BFS Traversal:");
+        while(!q.isEmpty()) {
+            int node = q.poll(); // Retrieve and remove front element
+            System.out.print(node + " ");
+            
+            // Add unvisited neighbors to queue
+            for(int i : graph.get(node)) {
+                if(!vis[i]) {
+                    vis[i] = true;
+                    q.add(i);
+                }
+            }
+        }
+    }
+    
+    // Depth-First Search (DFS) uses a Stack (or recursion)
+    static void dfs(ArrayList<ArrayList<Integer>> graph, int start, int v) {
+        boolean vis[] = new boolean[v];
+        Stack<Integer> s = new Stack<>();
+        
+        s.push(start);
+        vis[start] = true;
+        
+        System.out.println("DFS Traversal:");
+        while(!s.isEmpty()) {
+            int node = s.pop(); // Remove top element
+            System.out.print(node + " ");
+            
+            // Process neighbors in reverse to maintain left-to-right standard DFS behavior
+            for(int i = graph.get(node).size() - 1; i >= 0; i--) {
+                int j = graph.get(node).get(i);
+                if(!vis[j]) {
+                    vis[j] = true;
+                    s.push(j);
+                }
+            }
+        }
+    }
+}
+
+===========================================================================================================================================================
+
+Bellman-Ford Algorithm
+
+import java.util.*;
+
+// Class to represent a weighted edge
+class Pair {
+    int s, d, w; // source, destination, weight
+    
+    Pair(int s, int d, int w) {
+        this.s = s;
+        this.d = d;
+        this.w = w;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int v = in.nextInt(); // Vertices
+        int e = in.nextInt(); // Edges
+        
+        List<Pair> edge = new ArrayList<>();
+        
+        for(int i = 0; i < e; i++) {
+            int s = in.nextInt();
+            int d = in.nextInt();
+            int w = in.nextInt();
+            edge.add(new Pair(s, d, w));
+        }
+        
+        int so = in.nextInt(); // Source node
+        bellmanFord(edge, so, v);
+    }
+    
+    // Bellman-Ford algorithm to find shortest path and detect negative weight cycles
+    public static void bellmanFord(List<Pair> edge, int s, int v) {
+        int dis[] = new int[v];
+        
+        // Step 1: Initialize distances from source to all other vertices as INFINITY
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[s] = 0;
+        
+        // Step 2: Relax all edges |V| - 1 times
+        for(int i = 1; i <= v - 1; i++) {
+            for(int j = 0; j < edge.size(); j++) {
+                Pair p = edge.get(j);
+                // If path through source is shorter, update destination distance
+                if(dis[p.s] != Integer.MAX_VALUE && dis[p.s] + p.w < dis[p.d]) {
+                    dis[p.d] = dis[p.s] + p.w;
+                }
+            }
+        }
+        
+        // Step 3: Relax edges one more time to check for negative-weight cycles
+        for(int j = 0; j < edge.size(); j++) {
+            Pair p = edge.get(j);
+            // If we can STILL find a shorter path, a negative weight cycle exists
+            if(dis[p.s] != Integer.MAX_VALUE && dis[p.s] + p.w < dis[p.d]) {
+                System.out.println("Negative weight cycle exists");
+                return; // Terminate execution
+            }
+        }
+        
+        // Print calculated shortest distances
+        System.out.println("Shortest Distances from Source:");
+        for(int i = 0; i < v; i++) {
+            System.out.print(dis[i] + " ");
+        }
+    }
+}
+
+===========================================================================================================================================================
+
+Dial's Algorithm
+
+import java.util.*;
+
+// Pair class for edge representation
+class Pair {
+    int s, d, w; // source, destination, weight
+    Pair(int s, int d, int w) {
+        this.s = s;
+        this.d = d;
+        this.w = w;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int v = in.nextInt();
+        int e = in.nextInt();
+        
+        List<Pair> list = new ArrayList<>();
+        int maxWeight = 0;
+        
+        for(int i = 0; i < e; i++) {
+            int s = in.nextInt();
+            int d = in.nextInt();
+            int w = in.nextInt();
+            
+            maxWeight = Math.max(maxWeight, w); // Keep track of maximum edge weight
+            list.add(new Pair(s, d, w));
+        }
+        
+        int sou = in.nextInt(); // Source node
+        dials(v, list, sou, maxWeight);
+    }
+    
+    // Dial's Algorithm: an optimization of Dijkstra's for small maximum weights
+    public static void dials(int v, List<Pair> list, int sou, int m) {
+        int dis[] = new int[v];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[sou] = 0;
+        
+        // Buckets representing distances. Maximum possible distance is V * maxWeight
+        ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+        
+        for(int i = 0; i < v * m + 1; i++) {
+            adj.add(new ArrayList<>());
+        }
+        
+        // Add the source node to the distance '0' bucket
+        adj.get(0).add(sou);
+        
+        // Iterate through all possible distances
+        for(int i = 0; i < v * m + 1; i++) {
+            // Process all nodes that have this exact shortest distance `i`
+            while(!adj.get(i).isEmpty()) {
+                int u = adj.get(i).remove(0);
+                
+                // Check outgoing edges from node `u`
+                for(Pair p : list) {
+                    if(p.s == u) {
+                        // If a shorter path to `d` is found
+                        if(dis[p.s] + p.w < dis[p.d]) {
+                            // Remove destination from its old bucket (if it had one)
+                            if(dis[p.d] != Integer.MAX_VALUE) {
+                                adj.get(dis[p.d]).remove((Integer) p.d);
+                            }
+                            
+                            // Update distance and put destination in its new bucket
+                            dis[p.d] = dis[p.s] + p.w;
+                            adj.get(dis[p.d]).add(p.d);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Output shortest distances
+        System.out.println("Shortest distances using Dial's Algorithm:");
+        for (int i = 0; i < v; i++) {
+            System.out.println("Node " + i + " -> " + dis[i]);
+        }
+    }
+}
+
+===========================================================================================================================================================
+
+Topological Sort
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int v = in.nextInt();
+        int e = in.nextInt();
+        
+        // Directed Graph representation using Adjacency List
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        for(int i = 0; i < v; i++) {
+            list.add(new ArrayList<>());
+        }
+        
+        for(int i = 0; i < e; i++) {
+            int s = in.nextInt();
+            int d = in.nextInt();
+            list.get(s).add(d); // Directed edge s -> d
+        }
+        
+        boolean vis[] = new boolean[v];
+        Stack<Integer> st = new Stack<>(); // Stack captures the sorted sequence
+        
+        // Perform DFS from every unvisited node
+        for(int i = 0; i < v; i++) {
+            if(!vis[i]) {
+                topo(i, st, vis, list, v);
+            }
+        }
+        
+        // Pop elements from stack to get topological ordering
+        System.out.println("Topological Sort:");
+        while(!st.isEmpty()) {
+            System.out.print(st.pop() + " ");
+        }
+    }
+
+    // Helper function for DFS
+    public static void topo(int n, Stack<Integer> s, boolean[] vis, ArrayList<ArrayList<Integer>> list, int v) {
+        vis[n] = true; // Mark node as visited
+        
+        // Recursively visit all unvisited adjacent nodes
+        for(int i : list.get(n)) {
+            if(!vis[i]) {
+                topo(i, s, vis, list, v);
+            }
+        }
+        
+        // Only push node to stack AFTER all its dependents are visited
+        s.push(n);
+    }
+}
+
+===========================================================================================================================================================
+
+Boundary Traversal (Tree)
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node left, right;
+    
+    Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+}
+
+public class Main {
+    // -------- Build Tree from Level Order Input --------
+    static Node buildTree(String str) {
+        if (str.length() == 0 || str.charAt(0) == 'N')
+            return null;
+            
+        String[] arr = str.split(" ");
+        Queue<Node> q = new LinkedList<>();
+
+        Node root = new Node(Integer.parseInt(arr[0]));
+        q.add(root);
+
+        int i = 1;
+        while (!q.isEmpty() && i < arr.length) {
+            Node curr = q.poll();
+            
+            if (!arr[i].equals("N")) {
+                curr.left = new Node(Integer.parseInt(arr[i]));
+                q.add(curr.left);
+            }
+            i++;
+            if (i >= arr.length)
+                break;
+                
+            if (!arr[i].equals("N")) {
+                curr.right = new Node(Integer.parseInt(arr[i]));
+                q.add(curr.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    // -------- Left Boundary (Top-Down, Skipping Leaves) --------
+    static void leftBoundary(Node root) {
+        if (root == null) return;
+        // Skip leaf nodes as they are handled separately
+        if (root.left == null && root.right == null) return;
+        
+        System.out.print(root.data + " ");
+
+        // Traverse left. If left doesn't exist, go right (it's still on the boundary)
+        if (root.left != null)
+            leftBoundary(root.left);
+        else
+            leftBoundary(root.right);
+    }
+
+    // -------- Leaf Nodes (Left to Right) --------
+    static void leafNodes(Node root) {
+        if (root == null) return;
+        
+        if (root.left == null && root.right == null) {
+            System.out.print(root.data + " ");
+            return;
+        }
+
+        leafNodes(root.left);
+        leafNodes(root.right);
+    }
+
+    // -------- Right Boundary (Bottom-Up, Skipping Leaves) --------
+    static void rightBoundary(Node root) {
+        if (root == null) return;
+        if (root.left == null && root.right == null) return;
+        
+        // Traverse right. If right doesn't exist, go left
+        if (root.right != null)
+            rightBoundary(root.right);
+        else
+            rightBoundary(root.left);
+
+        // Print AFTER recursive call ensures bottom-up order
+        System.out.print(root.data + " ");
+    }
+
+    // -------- Main Boundary Traversal Wrapper --------
+    static void boundaryTraversal(Node root) {
+        if (root == null) return;
+        
+        System.out.print(root.data + " "); // Print root first
+
+        // 1. Traverse left boundary
+        leftBoundary(root.left);
+        // 2. Traverse all leaf nodes (left and right subtrees)
+        leafNodes(root.left);
+        leafNodes(root.right);
+        // 3. Traverse right boundary (bottom up)
+        rightBoundary(root.right);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+
+        Node root = buildTree(input);
+        System.out.println("Boundary Traversal:");
+        boundaryTraversal(root);
+    }
+}
+
+===========================================================================================================================================================
+
+Vertical Order Traversal
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node left, right;
+
+    Node(int data) {
+        this.data = data;
+    }
+}
+
+public class Main {
+    // Tree building logic from string (level order with 'N' for null)
+    static Node buildTree(String str) {
+        if (str.length() == 0 || str.charAt(0) == 'N') return null;
+        
+        String[] arr = str.split(" ");
+        Node root = new Node(Integer.parseInt(arr[0]));
+
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+
+        int i = 1;
+        while (!q.isEmpty() && i < arr.length) {
+            Node curr = q.poll();
+            
+            if (!arr[i].equals("N")) {
+                curr.left = new Node(Integer.parseInt(arr[i]));
+                q.offer(curr.left);
+            }
+            i++;
+
+            if (i >= arr.length) break;
+            
+            if (!arr[i].equals("N")) {
+                curr.right = new Node(Integer.parseInt(arr[i]));
+                q.offer(curr.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    // Helper class to bind a node to its Horizontal Distance (hd)
+    static class Pair {
+        Node node;
+        int hd;
+
+        Pair(Node node, int hd) {
+            this.node = node;
+            this.hd = hd;
+        }
+    }
+
+    static void verticalOrder(Node root) {
+        // TreeMap automatically sorts the keys (Horizontal Distances)
+        TreeMap<Integer, List<Integer>> map = new TreeMap<>();
+        // Queue handles level-order traversal, ensuring top-to-bottom order within the same vertical line
+        Queue<Pair> q = new LinkedList<>();
+
+        q.offer(new Pair(root, 0));
+
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            
+            // Add the current node's value to the list corresponding to its HD
+            if (!map.containsKey(p.hd)) {
+                map.put(p.hd, new ArrayList<>());
+            }
+            map.get(p.hd).add(p.node.data);
+
+            // Left child has Horizontal Distance - 1
+            if (p.node.left != null)
+                q.offer(new Pair(p.node.left, p.hd - 1));
+            // Right child has Horizontal Distance + 1
+            if (p.node.right != null)
+                q.offer(new Pair(p.node.right, p.hd + 1));
+        }
+
+        // Output results. Sorted by Horizontal Distance.
+        for (List<Integer> list : map.values()) {
+            for (int val : list)
+                System.out.print(val + " ");
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter tree (level order using N):");
+        String input = sc.nextLine();
+
+        Node root = buildTree(input);
+        verticalOrder(root);
+    }
+}
+
+===========================================================================================================================================================
+
+Recover the BST
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node left, right;
+    
+    Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+}
+
+public class Main {
+    // Build tree in level order from input string
+    static Node buildTree(String str) {
+        if (str.length() == 0 || str.charAt(0) == 'N') return null;
+        
+        String[] arr = str.split(" ");
+        Queue<Node> q = new LinkedList<>();
+        Node root = new Node(Integer.parseInt(arr[0]));
+        q.add(root);
+
+        int i = 1;
+        while (!q.isEmpty() && i < arr.length) {
+            Node curr = q.poll();
+            if (!arr[i].equals("N")) {
+                curr.left = new Node(Integer.parseInt(arr[i]));
+                q.add(curr.left);
+            }
+            i++;
+            if (i >= arr.length) break;
+            
+            if (!arr[i].equals("N")) {
+                curr.right = new Node(Integer.parseInt(arr[i]));
+                q.add(curr.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    // Inorder traversal collecting node pointers
+    // A correct BST yields a strictly increasing sorted list.
+    static void inorderList(Node root, ArrayList<Node> list) {
+        if (root == null) return;
+        inorderList(root.left, list);
+        list.add(root);  // Add current node
+        inorderList(root.right, list);
+    }
+
+    // Function to identify the two swapped nodes and swap their data back
+    static void fixSwapped(ArrayList<Node> list) {
+        Node first = null, second = null;
+        
+        for (int i = 0; i < list.size() - 1; i++) {
+            // If the strictly increasing property is violated...
+            if (list.get(i).data > list.get(i + 1).data) {
+                if (first == null) {
+                    // First anomaly: `first` is the larger element, `second` is potentially the smaller
+                    first = list.get(i);
+                    second = list.get(i + 1);
+                } else {
+                    // Second anomaly (if nodes aren't adjacent): update `second`
+                    second = list.get(i + 1);
+                    break;
+                }
+            }
+        }
+
+        // Perform the swap on the data properties
+        if (first != null && second != null) {
+            int temp = first.data;
+            first.data = second.data;
+            second.data = temp;
+        }
+    }
+
+    static void printInorder(Node root) {
+        if (root == null) return;
+        printInorder(root.left);
+        System.out.print(root.data + " ");
+        printInorder(root.right);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter tree in level order (use N for null):");
+        String input = sc.nextLine();
+
+        Node root = buildTree(input);
+        
+        // Use a list to store the inorder traversal node references
+        ArrayList<Node> list = new ArrayList<>();
+        inorderList(root, list);
+        
+        // Fix the swapped nodes
+        fixSwapped(list);
+
+        System.out.println("Inorder after fixing swapped nodes:");
+        printInorder(root);
+        System.out.println();
+    }
+}
+
+===========================================================================================================================================================
+
+Views of Tree
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node left, right;
+    
+    Node(int data) {
+        this.data = data;
+    }
+}
+
+// Pair class for Top/Bottom Views (Binding node to Horizontal Distance)
+class Pair {
+    Node node;
+    int hd;
+    
+    Pair(Node node, int hd) {
+        this.node = node;
+        this.hd = hd;
+    }
+}
+
+public class Main {
+    static Node buildTree(String str) {
+        if (str.length() == 0 || str.charAt(0) == 'N') return null;
+        
+        String[] arr = str.split(" ");
+        Queue<Node> q = new LinkedList<>();
+
+        Node root = new Node(Integer.parseInt(arr[0]));
+        q.offer(root);
+
+        int i = 1;
+        while (!q.isEmpty() && i < arr.length) {
+            Node curr = q.poll();
+            
+            if (!arr[i].equals("N")) {
+                curr.left = new Node(Integer.parseInt(arr[i]));
+                q.offer(curr.left);
+            }
+            i++;
+            if (i >= arr.length) break;
+            
+            if (!arr[i].equals("N")) {
+                curr.right = new Node(Integer.parseInt(arr[i]));
+                q.offer(curr.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    // ---------- TOP VIEW ----------
+    // Principle: First node seen at each Horizontal Distance
+    static void topView(Node root) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
+
+        q.offer(new Pair(root, 0));
+
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            
+            // Put in map ONLY if it's the first time we see this Horizontal Distance
+            if (!map.containsKey(p.hd))
+                map.put(p.hd, p.node.data);
+                
+            if (p.node.left != null) q.offer(new Pair(p.node.left, p.hd - 1));
+            if (p.node.right != null) q.offer(new Pair(p.node.right, p.hd + 1));
+        }
+
+        System.out.print("Top View: ");
+        for (int v : map.values()) System.out.print(v + " ");
+        System.out.println();
+    }
+
+    // ---------- BOTTOM VIEW ----------
+    // Principle: Last node seen at each Horizontal Distance
+    static void bottomView(Node root) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
+
+        q.offer(new Pair(root, 0));
+
+        while (!q.isEmpty()) {
+            Pair p = q.poll();
+            
+            // Constantly overwrite the map value. The final write is the bottom-most node.
+            map.put(p.hd, p.node.data);
+
+            if (p.node.left != null) q.offer(new Pair(p.node.left, p.hd - 1));
+            if (p.node.right != null) q.offer(new Pair(p.node.right, p.hd + 1));
+        }
+
+        System.out.print("Bottom View: ");
+        for (int v : map.values()) System.out.print(v + " ");
+        System.out.println();
+    }
+
+    // ---------- LEFT VIEW (LEVEL ORDER) ----------
+    // Principle: First node processed at each tree level
+    static void leftView(Node root) {
+        if (root == null) return;
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+
+        System.out.print("Left View: ");
+        while (!q.isEmpty()) {
+            int size = q.size(); // Number of nodes at current level
+            for (int i = 0; i < size; i++) {
+                Node curr = q.poll();
+                
+                // If it's the very first node of the level, print it
+                if (i == 0) System.out.print(curr.data + " ");
+                
+                if (curr.left != null) q.offer(curr.left);
+                if (curr.right != null) q.offer(curr.right);
+            }
+        }
+        System.out.println();
+    }
+
+    // ---------- RIGHT VIEW (LEVEL ORDER) ----------
+    // Principle: Last node processed at each tree level
+    static void rightView(Node root) {
+        if (root == null) return;
+        Queue<Node> q = new LinkedList<>();
+        q.offer(root);
+
+        System.out.print("Right View: ");
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Node curr = q.poll();
+                
+                // If it's the last node of the level, print it
+                if (i == size - 1) System.out.print(curr.data + " ");
+                
+                if (curr.left != null) q.offer(curr.left);
+                if (curr.right != null) q.offer(curr.right);
+            }
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        Node root = buildTree(input);
+
+        topView(root);
+        bottomView(root);
+        leftView(root);
+        rightView(root);
+    }
+}
