@@ -1164,11 +1164,18 @@
             <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:16px">View, run, and learn code
                 snippets step by step</p>
 
-            <button class="preloaded-btn" id="codeBtn" onclick="loadPreloadedCodes()"
-                style="background:linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                <h3>🧑‍💻 BSTS302P CAT 1 Codes</h3>
-                <p>12 programs • Data Structures • Java</p>
-            </button>
+            <div style="display: flex; gap: 10px; flex-direction: column;">
+                <button class="preloaded-btn" id="codeBtn" onclick="loadPreloadedCodes('sample_code.txt', this)"
+                    style="background:linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <h3>🧑‍💻 BSTS302P CAT 1 Codes</h3>
+                    <p>12 programs • Data Structures • Java</p>
+                </button>
+                <button class="preloaded-btn" id="codeBtn2" onclick="loadPreloadedCodes('sample_code2.txt', this)"
+                    style="background:linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <h3>🧑‍💻 BSTS302P CAT 2 Codes</h3>
+                    <p>More practice programs</p>
+                </button>
+            </div>
 
             <div id="codeList" class="code-section hidden">
                 <h3>📂 Select a Program</h3>
@@ -1552,6 +1559,11 @@
             $('codeBtn').disabled = false;
             $('codeBtn').classList.remove('hidden');
             $('codeBtn').innerHTML = '<h3>🧑‍💻 BSTS302P CAT 1 Codes</h3><p>12 programs • Data Structures • Java</p>';
+            if ($('codeBtn2')) {
+                $('codeBtn2').disabled = false;
+                $('codeBtn2').classList.remove('hidden');
+                $('codeBtn2').innerHTML = '<h3>🧑‍💻 BSTS302P CAT 2 Codes</h3><p>More practice programs</p>';
+            }
             $('codeList').classList.add('hidden');
         }
 
@@ -1749,13 +1761,14 @@
         };
 
         // Load codes from file
-        async function loadPreloadedCodes() {
-            const btn = $('codeBtn');
+        async function loadPreloadedCodes(fileName = 'sample_code.txt', btnElem = null) {
+            const btn = btnElem || $('codeBtn');
+            const originalHTML = btn.innerHTML;
             btn.disabled = true;
             btn.innerHTML = '<h3><span class="loading"></span>Loading...</h3><p>Fetching code snippets...</p>';
 
             try {
-                const response = await fetch('sample_code.txt');
+                const response = await fetch(fileName);
                 if (!response.ok) throw new Error('Failed to load');
                 const text = await response.text();
                 parseCodes(text);
@@ -1764,7 +1777,7 @@
                 btn.innerHTML = '<h3>❌ Error Loading</h3><p>Could not fetch codes. Try again later.</p>';
                 btn.disabled = false;
                 setTimeout(() => {
-                    btn.innerHTML = '<h3>🧑‍💻 BSTS302P CAT 1 Codes</h3><p>12 programs • Data Structures • Java</p>';
+                    btn.innerHTML = originalHTML;
                 }, 3000);
             }
         }
@@ -1836,6 +1849,11 @@
             $('codeBtn').disabled = false;
             $('codeBtn').classList.remove('hidden');
             $('codeBtn').innerHTML = '<h3>🧑‍💻 BSTS302P CAT 1 Codes</h3><p>12 programs • Data Structures • Java</p>';
+            if ($('codeBtn2')) {
+                $('codeBtn2').disabled = false;
+                $('codeBtn2').classList.remove('hidden');
+                $('codeBtn2').innerHTML = '<h3>🧑‍💻 BSTS302P CAT 2 Codes</h3><p>More practice programs</p>';
+            }
             $('codeList').classList.add('hidden');
         }
 
