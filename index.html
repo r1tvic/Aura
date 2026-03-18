@@ -1145,10 +1145,16 @@
 
                 <div class="divider">or try a pre-loaded test</div>
 
-                <button class="preloaded-btn" id="preloadedBtn" onclick="loadPreloadedQuestions()">
-                    <h3>📚 BSTS302P CAT 1 MCQs</h3>
-                    <p>120 questions • 12 topics • Data Structures</p>
-                </button>
+                <div style="display: flex; gap: 10px; flex-direction: column;">
+                    <button class="preloaded-btn" id="preloadedBtn" onclick="loadPreloadedQuestions('sample_mcqs.txt', this)">
+                        <h3>📚 BSTS302P CAT 1 MCQs</h3>
+                        <p>120 questions • 12 topics • Data Structures</p>
+                    </button>
+                    <button class="preloaded-btn" id="preloadedBtn2" onclick="loadPreloadedQuestions('sample_mcqs2.txt', this)">
+                        <h3>📚 BSTS302P CAT 2 MCQs</h3>
+                        <p>Test your knowledge with CAT 2 Mock Questions</p>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1476,13 +1482,14 @@
         }
 
         // Load pre-uploaded questions from external file
-        async function loadPreloadedQuestions() {
-            const btn = $('preloadedBtn');
+        async function loadPreloadedQuestions(fileName = 'sample_mcqs.txt', btnElem = null) {
+            const btn = btnElem || $('preloadedBtn');
+            const originalHTML = btn.innerHTML;
             btn.disabled = true;
             btn.innerHTML = '<h3><span class="loading"></span>Loading...</h3><p>Fetching questions...</p>';
 
             try {
-                const response = await fetch('sample_mcqs.txt');
+                const response = await fetch(fileName);
                 if (!response.ok) throw new Error('Failed to load');
                 const text = await response.text();
                 parseQuestions(text);
@@ -1491,7 +1498,7 @@
                 btn.innerHTML = '<h3>❌ Error Loading</h3><p>Could not fetch questions. Try uploading manually.</p>';
                 btn.disabled = false;
                 setTimeout(() => {
-                    btn.innerHTML = '<h3>📚 BSTS302P CAT 1 MCQ</h3><p>120 questions • 12 topics • Data Structures</p>';
+                    btn.innerHTML = originalHTML;
                 }, 3000);
             }
         }
@@ -1538,6 +1545,10 @@
             // Reset button states
             $('preloadedBtn').disabled = false;
             $('preloadedBtn').innerHTML = '<h3>📚 BSTS302P CAT 1 MCQs</h3><p>120 questions • 12 topics • Data Structures</p>';
+            if ($('preloadedBtn2')) {
+                $('preloadedBtn2').disabled = false;
+                $('preloadedBtn2').innerHTML = '<h3>📚 BSTS302P CAT 2 MCQs</h3><p>Test your knowledge with CAT 2 Mock Questions</p>';
+            }
             $('codeBtn').disabled = false;
             $('codeBtn').classList.remove('hidden');
             $('codeBtn').innerHTML = '<h3>🧑‍💻 BSTS302P CAT 1 Codes</h3><p>12 programs • Data Structures • Java</p>';
